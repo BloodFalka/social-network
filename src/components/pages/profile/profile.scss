@@ -1,0 +1,25 @@
+.profile {
+    &__header {
+        display: flex;
+        justify-content: start;
+    }
+    &__name {
+        text-align: center;
+        font-size: 30px;
+    }
+    &__avatar {
+        width: auto;
+        height: 250px;
+        margin-right: 30px;
+    }
+    &__description {}
+    &__socials {
+        &-logo {}
+        &-link {
+            a {
+                color: black;
+                text-decoration: none;
+            }
+        }
+    }
+}
