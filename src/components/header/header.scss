@@ -1,8 +1,36 @@
-.header {
-    padding: 5px 15px;
-    background-color: black;
+.app-header {
+    height: 60px;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
     grid-area: header;
-    img {
+    background-color: white;
+    .container {
+        margin: 0 auto;
+        max-width: 1580px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 15px;
+        .logo {
+            height: 50px;
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .app-header {
         height: 50px;
+        bottom: 0;
+        .container {
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100%;
+            padding: 0px 40px;
+            .logo {
+                display: none;
+            }
+        }
     }
 }

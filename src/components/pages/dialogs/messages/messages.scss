@@ -1,0 +1,21 @@
+.messages {
+    overflow: scroll;
+    height: 50vh;
+    /* хром, сафари */
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+    /* ie 10+ */
+    &.element {
+        -ms-overflow-style: none;
+    }
+    /* фф (свойство больше не работает, других способов тоже нет)*/
+    &.element {
+        overflow: -moz-scrollbars-none;
+    }
+    grid-area: messages;
+}
+
+@media(max-width: 992px) {}
+
+@media(max-width: 576px) {}

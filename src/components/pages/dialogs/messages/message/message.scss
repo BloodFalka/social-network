@@ -1,0 +1,71 @@
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    .avatar {
+        align-self: flex-start;
+        margin-right: 25px;
+        height: auto;
+        width: 80px;
+    }
+    .likes {
+        margin-top: 10px;
+    }
+    &-text {
+        max-width: 70%;
+        padding: 10px;
+        font-family: monospace;
+        word-break: break-all;
+        color: black;
+        background: white;
+        border-radius: 15px;
+        .loading {
+            color: transparent;
+            background: linear-gradient(-45deg, #cbcfd4, #c9dff6, #f3f5f6, #c9dff6);
+            background-size: 400% 400%;
+            animation: gradient 1s ease infinite;
+        }
+    }
+    &+.message {
+        margin-top: 15px;
+    }
+    &:nth-child(2n) {
+        flex-direction: row-reverse;
+        .avatar {
+            margin-right: 0px;
+            margin-left: 25px;
+        }
+    }
+}
+
+@media(max-width: 992px) {}
+
+@media(max-width: 576px) {
+    .message {
+        .avatar {
+            margin-right: 15px;
+            width: 40px;
+        }
+        &-text {
+            max-width: 90%;
+        }
+        &:nth-child(2n) {
+            .avatar {
+                margin-left: 15px;
+            }
+        }
+    }
+}

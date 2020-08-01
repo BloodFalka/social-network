@@ -1,0 +1,32 @@
+.dialog {
+    margin: 15px 0;
+    a {
+        display: flex;
+        text-decoration: none;
+        color: white;
+        line-height: 25px;
+        img {
+            margin-right: 20px;
+            border-radius: 100%;
+            height: 40px;
+        }
+        &.active {
+            font-size: 20px;
+            color: #00B8FF;
+        }
+    }
+}
+
+@media(max-width: 992px) {
+    .dialog {
+        margin: 15px 15px 0px 15px;
+        a {
+            img {
+                margin-right: 20px;
+                height: 40px;
+            }
+        }
+    }
+}
+
+@media(max-width: 576px) {}

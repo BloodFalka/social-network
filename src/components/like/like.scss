@@ -1,0 +1,17 @@
+.likes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    user-select: none;
+    //TEXT
+    line-height: 0px;
+    font-size: 17px;
+    line-height: 0;
+    font-weight: 700;
+    svg {
+        cursor: pointer;
+        margin-right: 3px;
+        height: 23px;
+        width: 23px;
+    }
+}

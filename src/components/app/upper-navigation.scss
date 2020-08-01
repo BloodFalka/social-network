@@ -1,0 +1,21 @@
+.upper-navigation {
+    display: none;
+}
+
+@media(max-width: 576px) {
+    .upper-navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        height: 50px;
+        position: fixed;
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+        grid-area: upper-navigation;
+        background-color: white;
+        .logo {
+            height: 40px;
+        }
+    }
+}

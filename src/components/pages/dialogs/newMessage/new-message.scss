@@ -1,0 +1,45 @@
+.new-message {
+    bottom: 50px;
+    width: 100%;
+    margin: 15px auto;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    grid-area: new-message;
+    .text-field {
+        padding: 15px;
+        outline: none;
+        resize: none;
+        margin: 0;
+        margin-right: 20px;
+        width: 70%;
+        height: 50px;
+        border-radius: 5px;
+    }
+}
+
+@media(max-width: 768px) {
+    .new-message {
+        width: 100%;
+        .text-field {
+            width: 90%;
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .new-message {
+        width: 100%;
+        .text-field {
+            margin-right: 20px;
+            width: 80%;
+        }
+        .button {
+            padding: 0px;
+            height: 80px;
+            width: 50px;
+            font-size: 15px;
+        }
+    }
+}

@@ -1,10 +1,20 @@
 import React from 'react';
 import './header.scss';
+import Navigation from './navigation';
+
+const Logo = (props) => {
+    return(
+        <img className='logo' src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/da2e8612058573.56256be1b768a.png" alt="logo"/>
+    )
+}
 
 const Header = () => {
     return(
-        <header className='header'>
-            <img src="https://i.pinimg.com/originals/7b/78/06/7b7806b2f03ec8a8e79b2efe57498477.png" alt="logo"/>
+        <header className='app-header'>
+            <div className="container">
+                <Logo/>
+                <Navigation/>
+            </div>
         </header>
     )
 }

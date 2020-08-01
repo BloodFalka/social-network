@@ -1,5 +1,12 @@
 .content {
+    color: white;
     padding: 25px;
-    background-color: darkgoldenrod;
+    background-color: #001935;
     grid-area: content;
+    .container {
+        max-width: 990px;
+        padding: 0 8px;
+        box-sizing: border-box;
+        margin: 0 auto;
+    }
 }

@@ -1,0 +1,9 @@
+.my-posts {
+    width: 60%;
+}
+
+@media(max-width: 768px) {
+    .my-posts {
+        width: 100%;
+    }
+}

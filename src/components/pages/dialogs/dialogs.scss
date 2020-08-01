@@ -1,0 +1,28 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 3fr 10fr;
+    grid-template-rows: 10fr 100px;
+    grid-template-areas: 'dialogs messages''dialogs new-message';
+    column-gap: 25px;
+    row-gap: 25px;
+    &-items {
+        grid-area: dialogs;
+    }
+}
+
+@media(max-width: 992px) {
+    .dialogs {
+        grid-template-columns: 10fr;
+        grid-template-rows: 50vh 100px;
+        grid-template-areas: 'messages' 'new-message';
+        row-gap: 20px;
+        &-items {
+            display: none;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .dialogs {}
+}

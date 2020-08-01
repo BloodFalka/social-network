@@ -1,0 +1,38 @@
+.friend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .avatar {
+        margin-right: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        height: 50px;
+        width: auto;
+    }
+    .name {}
+    .status {
+        color: rgba(255, 255, 255, 0.568);
+    }
+}
+
+@media(max-width: 992px) {}
+
+@media (max-width: 768px) {
+    .friend {
+        .text {
+            width: 200px;
+        }
+        &:nth-child(2n) {
+            justify-self: end;
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .friend {
+        justify-self: center;
+        &:nth-child(2n) {
+            justify-self: center;
+        }
+    }
+}
