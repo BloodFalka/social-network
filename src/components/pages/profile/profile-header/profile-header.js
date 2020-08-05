@@ -2,19 +2,18 @@ import React from 'react';
 import './profile-header.scss';
 import ProfileAvatar from '../profile-avatar';
 import ProfileDescription from '../profile-description';
-import { connect } from 'react-redux';
+import Spinner from '../../../common/spinner/spinner';
 
 const ProfileHeader = (props) => {
+	if (!props.userData) {
+		return <Spinner />;
+	}
 	return (
 		<div className="header">
-			<ProfileAvatar />
-			<ProfileDescription />
+			<ProfileAvatar photo={props.userData.photos.large} />
+			<ProfileDescription {...props} />
 		</div>
 	);
 };
 
-const mapDispatchToProps = () => {};
-
-const mapStateToProps = (state) => {};
-
-export default connect()(ProfileHeader);
+export default ProfileHeader;

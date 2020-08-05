@@ -27,6 +27,6 @@ const Dialogs = (props) => {
 const mapStateToProps = (state) => {
 	return { dialogs: state.messagePage.dialogs };
 };
-const mapDispatchToProps = () => {};
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);

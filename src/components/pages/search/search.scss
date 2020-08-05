@@ -1,0 +1,24 @@
+.search {
+    .search-input {
+        display: none;
+    }
+}
+
+@media(max-width: 768px) {}
+
+@media(max-width: 576px) {
+    .search {
+        .search-input {
+            position: fixed;
+            width: 40%;
+            display: block;
+            z-index: 10;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            .search-image {
+                margin-right: 10px;
+            }
+        }
+    }
+}

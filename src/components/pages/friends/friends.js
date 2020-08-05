@@ -20,6 +20,6 @@ const Friends = (props) => {
 const mapStateToProps = (state) => {
 	return { friends: state.friendsPage.friends };
 };
-const mapDispatchToProps = () => {};
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Friends);

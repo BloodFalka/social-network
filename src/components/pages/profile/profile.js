@@ -6,8 +6,8 @@ import MyPosts from './my-posts';
 const Profile = (props) => {
 	return (
 		<div className="profile">
-			<ProfileHeader />
-			<MyPosts />
+			<ProfileHeader userData={props.userData} />
+			<MyPosts posts={props.posts} />
 		</div>
 	);
 };

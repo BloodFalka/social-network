@@ -6,14 +6,12 @@
 
 @media(max-width: 992px) {
     .friends {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 768px) {
-    .friends {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .friends {}
 }
 
 @media(max-width: 576px) {

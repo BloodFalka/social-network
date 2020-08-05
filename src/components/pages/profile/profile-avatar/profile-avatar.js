@@ -1,16 +1,15 @@
 import React from 'react';
 import './profile-avatar.scss';
-import { connect } from 'react-redux';
+import defaultAvatar from '../../../../img/avatar.png';
 
 const ProfileAvatar = (props) => {
-	return <img className="avatar" src={props.src} alt="avatar" />;
+	return (
+		<img
+			className="avatar"
+			src={props.photo ? props.photo : defaultAvatar}
+			alt="avatar"
+		/>
+	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		src: state.profilePage.data.avatar,
-	};
-};
-const mapDispatchToProps = () => {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileAvatar);
+export default ProfileAvatar;

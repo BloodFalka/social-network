@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Router>
+		<Router basename="/social-network">
 			<Favicon url="./favicon.ico" />
 			<Provider store={store}>
 				<App />

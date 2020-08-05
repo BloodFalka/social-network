@@ -7,10 +7,14 @@
     background-color: #00B8FF;
     border: none;
     border-radius: 3px;
-    &:hover {
-        background-color: #0475a1;
-    }
     &:active {
         transform: scale(0.9);
+    }
+    &:disabled,
+    &[disabled] {
+        cursor: auto;
+        color: black;
+        background-color: #fff !important;
+        border: 1px solid black;
     }
 }

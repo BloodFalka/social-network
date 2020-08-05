@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './header.scss';
 import Navigation from './navigation';
+import Logo from '../common/logo/logo';
+import SearchInput from './navigation/search-input/search-input';
 
-const Logo = (props) => {
-    return(
-        <img className='logo' src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/da2e8612058573.56256be1b768a.png" alt="logo"/>
-    )
-}
-
-const Header = () => {
-    return(
-        <header className='app-header'>
-            <div className="container">
-                <Logo/>
-                <Navigation/>
-            </div>
-        </header>
-    )
-}
+const Header = (props) => {
+	return (
+		<header className="app-header">
+			<div className="container">
+				<Logo />
+				<SearchInput />
+				<Navigation isAuth={props.isAuth} />
+			</div>
+		</header>
+	);
+};
 
 export default Header;
