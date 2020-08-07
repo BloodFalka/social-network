@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './new-post.scss';
-import Button from '../../button';
+import Button from '../../common/button';
 import { Redirect } from 'react-router';
 
 export default class NewPost extends Component {
@@ -24,7 +24,7 @@ export default class NewPost extends Component {
 
 	render() {
 		return this.state.redirect ? (
-			<Redirect push to="/profile" />
+			<Redirect to="/profile" />
 		) : (
 			<div className="new-post">
 				<textarea

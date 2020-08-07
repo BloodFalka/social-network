@@ -3,7 +3,6 @@ import './dialogs.scss';
 import Messages from './messages';
 import Dialog from './dialog';
 import NewMessageContainer from './newMessage';
-import { connect } from 'react-redux';
 
 const Dialogs = (props) => {
 	const dialogs = props.dialogs.map((item) => {
@@ -24,9 +23,5 @@ const Dialogs = (props) => {
 		</div>
 	);
 };
-const mapStateToProps = (state) => {
-	return { dialogs: state.messagePage.dialogs };
-};
-const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+export default Dialogs;

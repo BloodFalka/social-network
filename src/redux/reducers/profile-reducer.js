@@ -1,3 +1,5 @@
+import { profileAPI } from '../../api';
+
 const SET_USER = 'SET_USER',
 	TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -28,5 +30,22 @@ export const toggleLoading = (isLoading) => ({
 	type: TOGGLE_LOADING,
 	isLoading,
 });
+
+export const getUserProfile = (userId, currentUserId = null, isAuth) => {
+	return (dispatch) => {
+		dispatch(toggleLoading(true));
+
+		let user = userId ? userId : currentUserId;
+
+		if (!isAuth) {
+			return;
+		}
+
+		profileAPI.getProfile(user).then((data) => {
+			dispatch(toggleLoading(false));
+			dispatch(setUserData(data));
+		});
+	};
+};
 
 export default profileReducer;

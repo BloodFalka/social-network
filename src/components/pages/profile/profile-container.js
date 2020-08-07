@@ -4,38 +4,27 @@ import Profile from './profile';
 import { connect } from 'react-redux';
 import {
 	setUserData,
-	toggleLoading,
+	getUserProfile,
 } from '../../../redux/reducers/profile-reducer';
 import Spinner from '../../common/spinner/spinner';
 import { withRouter } from 'react-router-dom';
-import { Redirect } from 'react-router';
-import { profileAPI } from '../../../api';
+import withAuthRedirect from '../../hoc/with-auth-redirect';
+import { compose } from 'redux';
 
 class ProfileContainer extends Component {
 	componentDidMount() {
-		this.props.toggleLoading(true);
-
-		let userId = this.props.match.params.userId
-			? this.props.match.params.userId
-			: this.props.currentUserId;
-
-		if (!this.props.isAuth) {
-			return;
-		}
-
-		profileAPI.getProfile(userId).then((data) => {
-			this.props.toggleLoading(false);
-			this.props.setUserData(data);
-		});
+		this.props.getUserProfile(
+			this.props.match.params.userId,
+			this.props.currentUserId,
+			this.props.isAuth
+		);
 	}
 
 	render() {
 		return this.props.isLoading ? (
 			<Spinner />
-		) : !this.props.isAuth ? (
-			<Redirect push to="/login" />
 		) : (
-			<Profile {...this.props} />
+			<Profile posts={this.props.posts} userData={this.props.userData} />
 		);
 	}
 }
@@ -48,9 +37,10 @@ const mapStateToProps = (state) => ({
 	currentUserId: state.auth.data.userId,
 });
 
-const mapDispatchToProps = { setUserData, toggleLoading };
+const mapDispatchToProps = { setUserData, getUserProfile };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withRouter(ProfileContainer));
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withRouter,
+	withAuthRedirect
+)(ProfileContainer);

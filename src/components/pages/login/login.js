@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './login.scss';
 import Logo from '../../common/logo/logo';
-import Button from '../../button';
+import Button from '../../common/button';
 
 const Login = (props) => {
 	return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import './new-message.scss';
-import Button from '../../../button';
+import Button from '../../../common/button';
 import { connect } from 'react-redux';
 import {
 	updateNewMessageActionCreator,

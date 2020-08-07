@@ -1,6 +1,7 @@
 import React from 'react';
 import { SocialMediaIconsReact as SocialIcons } from 'social-media-icons-react';
 import './profile-description.scss';
+import ProfileStatus from './profile-status';
 
 const ProfileName = (props) => {
 	return <div className="name">{props.name}</div>;
@@ -21,7 +22,7 @@ const ProfileDescription = (props) => {
 		<div className="description">
 			<ProfileName name={fullName} />
 			{/* <div className="birth-date">Date of Birth: {dateOfBirth}</div> */}
-			<div className="aboutMe">{aboutMe}</div>
+			<ProfileStatus status={'aboutMe'} />
 			{lookingForAJobTemplate}
 			<div className="socials">
 				{/* <div className="socials-title">Other socials:</div>

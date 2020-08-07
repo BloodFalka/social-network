@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import Login from './login';
 import { connect } from 'react-redux';
-import {
-	setUserData,
-	toggleLoading,
-} from '../../../redux/reducers/auth-reducer';
+import { getAuthUserData } from '../../../redux/reducers/auth-reducer';
 import Spinner from '../../common/spinner/spinner';
 import { Redirect } from 'react-router';
-import { authAPI } from '../../../api';
 
 class LoginContainer extends Component {
 	state = {
@@ -15,17 +11,10 @@ class LoginContainer extends Component {
 	};
 
 	componentDidMount() {
-		this.props.toggleLoading(true);
+		this.props.getAuthUserData();
 
-		authAPI.getAuth().then((data) => {
-			if (data.resultCode === 0) {
-				const { id, email, login } = data.data;
-				this.props.toggleLoading(false);
-				this.props.setUserData(id, email, login);
-				this.setState({
-					redirect: true,
-				});
-			}
+		this.setState({
+			redirect: true,
 		});
 	}
 
@@ -33,7 +22,7 @@ class LoginContainer extends Component {
 		return this.props.isLoading ? (
 			<Spinner />
 		) : this.state.redirect ? (
-			<Redirect push to="/profile" />
+			<Redirect to="/profile" />
 		) : (
 			<Login />
 		);
@@ -44,6 +33,6 @@ const mapStateToProps = (state) => ({
 	isLoading: state.auth.isLoading,
 });
 
-const mapDispatchToProps = { setUserData, toggleLoading };
+const mapDispatchToProps = { getAuthUserData };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

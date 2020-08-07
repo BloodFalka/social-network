@@ -159,6 +159,8 @@ const messageReducer = (state = initialState, action) => {
 	}
 };
 
+//ACTIONS
+
 export const follow = (userId) => ({ type: FOLLOW, userId });
 export const unfollow = (userId) => ({ type: UNFOLLOW, userId });
 export const setUsers = (users) => ({ type: SET_USERS, users });
@@ -186,6 +188,8 @@ export const toggleError = (isError) => ({
 	isError,
 });
 
+//THUNKS
+
 export const getUsers = (
 	totalUsersCount,
 	pageSize,
@@ -198,11 +202,10 @@ export const getUsers = (
 			.getUsers(totalUsersCount, pageSize, currentPage, page)
 			.then((data) => {
 				dispatch(toggleLoading(false));
-				page === 'prev'
-					? dispatch(setPreviousPage())
-					: page === 'next'
-					? dispatch(setNextPage())
-					: dispatch(setUsers(data.items));
+				page === 'prev' && dispatch(setPreviousPage());
+				page === 'next' && dispatch(setNextPage());
+
+				dispatch(setUsers(data.items));
 
 				dispatch(setTotalUsersCount(data.totalCount));
 			});
@@ -214,7 +217,7 @@ export const setFollow = (id) => {
 		dispatch(toggleFollowingProgress(true, id));
 
 		followAPI.setFollow(id).then((data) => {
-			if (data.resultCode == 0) {
+			if (data.resultCode === 0) {
 				dispatch(follow(id));
 			} else {
 				// this.props.toggleError(true);
@@ -229,7 +232,7 @@ export const setUnfollow = (id) => {
 		dispatch(toggleFollowingProgress(true, id));
 
 		followAPI.setUnfollow(id).then((data) => {
-			if (data.resultCode == 0) {
+			if (data.resultCode === 0) {
 				dispatch(unfollow(id));
 			} else {
 				// this.props.toggleError(true);

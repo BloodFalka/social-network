@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import Users from './users';
 import {
-	unfollow,
-	follow,
-	setPreviousPage,
-	setNextPage,
-	setTotalUsersCount,
-	toggleLoading,
-	toggleFollowingProgress,
-	toggleError,
 	getUsers,
 	setFollow,
 	setUnfollow,
 } from '../../../../redux/reducers/users-reducer';
 import { connect } from 'react-redux';
 import Spinner from '../../../common/spinner/spinner';
+import { compose } from 'redux';
+import withAuthRedirect from '../../../hoc/with-auth-redirect';
 
 class UsersContainer extends Component {
 	componentDidMount() {
@@ -77,10 +71,9 @@ class UsersContainer extends Component {
 				currentPage={currentPage}
 				onUnfollow={this.onUnfollow}
 				onFollow={this.onFollow}
+				isFollowingProgress={isFollowingProgress}
 				onPreviousPageClick={this.onPreviousPageClick}
 				onNextPageClick={this.onNextPageClick}
-				isLoading={isLoading}
-				isFollowingProgress={isFollowingProgress}
 			/>
 		);
 	}
@@ -94,7 +87,6 @@ const mapStateToProps = (state) => ({
 	isLoading: state.searchPage.isLoading,
 	isFollowingProgress: state.searchPage.isFollowingProgress,
 	isError: state.searchPage.isError,
-	isAuth: state.auth.isAuth,
 });
 
 const mapDispatchToProps = {
@@ -103,4 +95,7 @@ const mapDispatchToProps = {
 	setUnfollow,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withAuthRedirect
+)(UsersContainer);

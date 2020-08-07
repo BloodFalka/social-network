@@ -1,3 +1,5 @@
+import { authAPI } from '../../api';
+
 const SET_USER_DATA = 'SET_USER_DATA',
 	TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -48,7 +50,9 @@ const authReducer = (state = initialState, action) => {
 	}
 };
 
-export const setUserData = (userId, email, login) => ({
+//ACTIONS
+
+export const setAuthUserData = (userId, email, login) => ({
 	type: 'SET_USER_DATA',
 	data: { userId, email, login },
 });
@@ -57,5 +61,21 @@ export const toggleLoading = (isLoading) => ({
 	type: TOGGLE_LOADING,
 	isLoading,
 });
+
+//THUNKS
+
+export const getAuthUserData = () => {
+	return (dispatch) => {
+		dispatch(toggleLoading(true));
+
+		authAPI.getMe().then((data) => {
+			if (data.resultCode === 0) {
+				const { id, email, login } = data.data;
+				dispatch(toggleLoading(false));
+				dispatch(setAuthUserData(id, email, login));
+			}
+		});
+	};
+};
 
 export default authReducer;

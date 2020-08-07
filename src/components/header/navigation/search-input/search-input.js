@@ -19,7 +19,7 @@ class SearchInput extends Component {
 		);
 	};
 	render() {
-		let redirect = this.state.redirect ? <Redirect push to="/search" /> : null;
+		let redirect = this.state.redirect ? <Redirect to="/search" /> : null;
 		return (
 			<div className="search-input">
 				{redirect}

@@ -1,7 +1,7 @@
 import React from 'react';
 import User from './user';
 import './users.scss';
-import Button from '../../../button';
+import Button from '../../../common/button';
 
 const Users = (props) => {
 	const {

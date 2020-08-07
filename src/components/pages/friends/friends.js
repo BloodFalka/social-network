@@ -1,7 +1,6 @@
 import React from 'react';
 import './friends.scss';
 import Friend from './friend/friend';
-import { connect } from 'react-redux';
 
 const Friends = (props) => {
 	const friends = props.friends.map((item) => {
@@ -17,9 +16,5 @@ const Friends = (props) => {
 
 	return <div className="friends">{friends}</div>;
 };
-const mapStateToProps = (state) => {
-	return { friends: state.friendsPage.friends };
-};
-const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Friends);
+export default Friends;
