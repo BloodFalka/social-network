@@ -1,42 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../common/button';
 import './profile-description.scss';
-import { profileAPI } from '../../../../api';
 
-class ProfileStatus extends Component {
-	state = {
-		editMode: false,
+const ProfileStatus = (props) => {
+	const [editMode, setEditMode] = useState(false);
+	const [status, setStatus] = useState(props.status);
+
+	useEffect(() => {
+		setStatus(props.status);
+	}, [props.status]);
+
+	const onStatusDoubleClick = () => {
+		setEditMode(true);
 	};
 
-	onStatusDoubleClick = () => {
-		this.setState({
-			editMode: true,
-		});
+	const onEditClick = () => {
+		setEditMode(false);
+		props.updateUserStatus(status);
 	};
 
-	onEditClick = () => {
-		profileAPI.setStatus('ddd');
-		this.setState({
-			editMode: false,
-		});
+	const onStatusChange = (e) => {
+		setStatus(e.currentTarget.value);
 	};
 
-	render() {
-		return (
-			<div className="status">
-				{!this.state.editMode ? (
-					<div className="status-text" onDoubleClick={this.onStatusDoubleClick}>
-						{this.props.status}
-					</div>
-				) : (
-					<div onBlur={this.onEditStatusBlur} className="status-edit">
-						<input className="input" value={this.props.status} />
-						<Button onClick={this.onEditClick} text="Edit" />
-					</div>
-				)}
-			</div>
-		);
-	}
-}
+	return (
+		<div className="status">
+			{!editMode ? (
+				<div className="status-text" onDoubleClick={onStatusDoubleClick}>
+					{status || 'No Status'}
+				</div>
+			) : (
+				<div className="status-edit">
+					<input onChange={onStatusChange} className="input" value={status} />
+					<Button onClick={onEditClick} text="Edit" />
+				</div>
+			)}
+		</div>
+	);
+};
 
 export default ProfileStatus;

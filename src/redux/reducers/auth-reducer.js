@@ -1,12 +1,17 @@
 import { authAPI } from '../../api';
+import { stopSubmit } from 'redux-form';
 
-const SET_USER_DATA = 'SET_USER_DATA',
-	TOGGLE_LOADING = 'TOGGLE_LOADING';
+const SET_USER_DATA = 'auth/SET_USER_DATA',
+	TOGGLE_LOADING = 'auth/TOGGLE_LOADING',
+	TOGGLE_CAPTCHA = 'auth/TOGGLE_CAPTCHA',
+	SET_CAPTCHA = 'auth/SET_CAPTCHA';
 
 let initialState = {
 	data: { userId: null, email: '', login: '' },
 	isAuth: false,
 	isLoading: false,
+	isShowingCaptcha: false,
+	captcha: null,
 };
 
 // let userData = {
@@ -38,12 +43,22 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				data: { ...action.data },
-				isAuth: true,
+				isAuth: action.isAuth,
 			};
 		case TOGGLE_LOADING:
 			return {
 				...state,
 				isLoading: action.isLoading,
+			};
+		case TOGGLE_CAPTCHA:
+			return {
+				...state,
+				isShowingCaptcha: action.isShowingCaptcha,
+			};
+		case SET_CAPTCHA:
+			return {
+				...state,
+				captcha: action.captchaImage,
 			};
 		default:
 			return state;
@@ -52,9 +67,10 @@ const authReducer = (state = initialState, action) => {
 
 //ACTIONS
 
-export const setAuthUserData = (userId, email, login) => ({
-	type: 'SET_USER_DATA',
+export const setAuthUserData = (userId, email, login, isAuth) => ({
+	type: SET_USER_DATA,
 	data: { userId, email, login },
+	isAuth,
 });
 
 export const toggleLoading = (isLoading) => ({
@@ -62,19 +78,69 @@ export const toggleLoading = (isLoading) => ({
 	isLoading,
 });
 
+export const toggleCaptcha = (isShowingCaptcha) => ({
+	type: TOGGLE_CAPTCHA,
+	isShowingCaptcha,
+});
+
+export const setCaptcha = (captchaImage) => ({
+	type: SET_CAPTCHA,
+	captchaImage,
+});
+
 //THUNKS
 
 export const getAuthUserData = () => {
-	return (dispatch) => {
+	return async (dispatch) => {
 		dispatch(toggleLoading(true));
 
-		authAPI.getMe().then((data) => {
-			if (data.resultCode === 0) {
-				const { id, email, login } = data.data;
-				dispatch(toggleLoading(false));
-				dispatch(setAuthUserData(id, email, login));
-			}
-		});
+		let data = await authAPI.getMe();
+		if (data.resultCode === 0) {
+			const { id, email, login } = data.data;
+			dispatch(setAuthUserData(id, email, login, true));
+		}
+		dispatch(toggleLoading(false));
+	};
+};
+
+export const authLogin = (userLoginData) => {
+	return async (dispatch) => {
+		dispatch(toggleLoading(true));
+		let data = await authAPI.login(userLoginData);
+		switch (data.resultCode) {
+			case 0:
+				dispatch(toggleCaptcha(false));
+				dispatch(setAuthUserData());
+				dispatch(getAuthUserData());
+				break;
+			case 1:
+				dispatch(
+					stopSubmit('login', {
+						error: 'Email or password is wrong',
+					})
+				);
+				break;
+			case 10:
+				dispatch(toggleCaptcha(true));
+				let response = await authAPI.getCaptcha();
+				dispatch(setCaptcha(response));
+				break;
+			default:
+				break;
+		}
+		dispatch(toggleLoading(false));
+	};
+};
+
+export const authLogout = () => {
+	return async (dispatch) => {
+		dispatch(toggleLoading(true));
+		let data = await authAPI.logout();
+		if (data.resultCode === 0) {
+			dispatch(setAuthUserData());
+			dispatch(toggleLoading(false));
+			dispatch(setAuthUserData(null, null, null, false));
+		}
 	};
 };
 

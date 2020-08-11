@@ -1,5 +1,4 @@
-const ADD_MESSAGE = 'ADD_MESSAGE',
-	UPDATE_ADD_MESSAGE_TEXT = 'UPDATE_ADD_MESSAGE_TEXT';
+const ADD_MESSAGE = 'message/ADD_MESSAGE';
 
 let initialState = {
 	dialogs: [
@@ -57,7 +56,6 @@ let initialState = {
 			myMessage: true,
 		},
 	],
-	newMessageText: '',
 	userAvatar:
 		'https://i.pinimg.com/564x/06/c7/df/06c7df7ec5a9295a21f6c2040992376e.jpg',
 };
@@ -67,22 +65,20 @@ const messageReducer = (state = initialState, action) => {
 		case ADD_MESSAGE:
 			let newMessage = {
 				id: state.messages.length + 1,
-				message: state.newMessageText,
+				message: action.text,
 				avatar: state.userAvatar,
 				likesCount: 0,
 			};
 
 			return {
 				...state,
-				newMessageText: '',
 				messages: [...state.messages, newMessage],
 			};
-
-		case UPDATE_ADD_MESSAGE_TEXT:
-			return { ...state, newMessageText: action.newMessage };
 		default:
 			return state;
 	}
 };
+
+export const addMessage = (text) => ({ type: ADD_MESSAGE, text });
 
 export default messageReducer;

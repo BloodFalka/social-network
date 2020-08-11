@@ -2,34 +2,34 @@ import React from 'react';
 import './new-message.scss';
 import Button from '../../../common/button';
 import { connect } from 'react-redux';
-import {
-	updateNewMessageActionCreator,
-	addMessageActionCreator,
-} from '../../../../redux/actions';
+import { addMessage } from '../../../../redux/reducers/message-reducer';
+import { reduxForm, Field } from 'redux-form';
+
+const NewMessageForm = (props) => {
+	return (
+		<form className="new-message" onSubmit={props.handleSubmit}>
+			<Field
+				component={'textarea'}
+				placeholder="Enter your message"
+				type={'textarea'}
+				name={'messageText'}
+				className="text-field"
+			></Field>
+			<Button text="Send" />
+		</form>
+	);
+};
+
+const ReduxNewMessageForm = reduxForm({ form: 'new-message' })(NewMessageForm);
 
 const NewMessage = (props) => {
-	const onClickAddNewMessage = () => {
-		if (props.value) {
-			props.sendMessage();
+	const onSubmit = (formData) => {
+		if (formData.messageText) {
+			props.addMessage(formData.messageText);
 		}
 	};
 
-	const onChangeMessageArea = (e) => {
-		let text = e.target.value;
-		props.updateNewMessageText(text);
-	};
-
-	return (
-		<div className="new-message">
-			<textarea
-				onChange={onChangeMessageArea}
-				value={props.value}
-				placeholder="Enter your message"
-				className="text-field"
-			></textarea>
-			<Button onClick={onClickAddNewMessage} text="Send" />
-		</div>
-	);
+	return <ReduxNewMessageForm onSubmit={onSubmit} />;
 };
 
 const mapStateToProps = (state) => {
@@ -37,9 +37,8 @@ const mapStateToProps = (state) => {
 		value: state.messagePage.newMessageText,
 	};
 };
-const mapDispatchToProps = (dispatch) => ({
-	updateNewMessageText: (text) => dispatch(updateNewMessageActionCreator(text)),
-	sendMessage: () => dispatch(addMessageActionCreator()),
-});
+const mapDispatchToProps = {
+	addMessage,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewMessage);

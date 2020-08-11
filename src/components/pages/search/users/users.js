@@ -29,6 +29,7 @@ const Users = (props) => {
 				onUnfollow={onUnfollow}
 				onFollow={onFollow}
 				isFollowingProgress={isFollowingProgress}
+				isAuth={props.isAuth}
 			/>
 		);
 	});

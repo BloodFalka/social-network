@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-	addPostActionCreator,
-	updateNewPostActionCreator,
-} from '../../../redux/reducers/new-post-reducer.js';
+import { addPost } from '../../../redux/reducers/new-post-reducer.js';
 import { connect } from 'react-redux';
 import NewPost from './new-post';
 import withAuthRedirect from '../../hoc/with-auth-redirect.js';
@@ -24,11 +21,8 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		updateNewPostText: (text) => dispatch(updateNewPostActionCreator(text)),
-		addPost: () => dispatch(addPostActionCreator()),
-	};
+const mapDispatchToProps = {
+	addPost,
 };
 
 export default compose(

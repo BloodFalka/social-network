@@ -1,20 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Favicon from 'react-favicon';
 import './index.scss';
-import App from './components/app/app';
-import store from './redux/store';
-import { Provider } from 'react-redux';
+import DeadSocialApp from './components/app/app';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Router basename="/social-network">
-			<Favicon url="./favicon.ico" />
-			<Provider store={store}>
-				<App />
-			</Provider>
-		</Router>
-	</React.StrictMode>,
+	<DeadSocialApp />,
+
 	document.getElementById('root')
 );

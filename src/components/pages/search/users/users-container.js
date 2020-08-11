@@ -1,40 +1,31 @@
 import React, { Component } from 'react';
 import Users from './users';
-import {
-	getUsers,
-	setFollow,
-	setUnfollow,
-} from '../../../../redux/reducers/users-reducer';
+import { requestUsers, setFollow, setUnfollow } from '../../../../redux/reducers/users-reducer';
 import { connect } from 'react-redux';
 import Spinner from '../../../common/spinner/spinner';
 import { compose } from 'redux';
-import withAuthRedirect from '../../../hoc/with-auth-redirect';
+import {
+	getUsers,
+	getPageSize,
+	getTotalUsersCount,
+	getCurrentPage,
+	getIsError,
+	getIsFollowingProgress,
+	getIsLoading,
+} from '../../../../redux/selectors/users-selector';
+import { getIsAuth } from '../../../../redux/selectors/auth-selector';
 
 class UsersContainer extends Component {
 	componentDidMount() {
-		this.props.getUsers(
-			this.props.totalUsersCount,
-			this.props.pageSize,
-			this.props.currentPage
-		);
+		this.props.requestUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage);
 	}
 
 	onPreviousPageClick = () => {
-		this.props.getUsers(
-			this.props.totalUsersCount,
-			this.props.pageSize,
-			this.props.currentPage,
-			'prev'
-		);
+		this.props.requestUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage, 'prev');
 	};
 
 	onNextPageClick = () => {
-		this.props.getUsers(
-			this.props.totalUsersCount,
-			this.props.pageSize,
-			this.props.currentPage,
-			'next'
-		);
+		this.props.requestUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage, 'next');
 	};
 
 	onFollow = (id) => {
@@ -46,21 +37,10 @@ class UsersContainer extends Component {
 	};
 
 	render() {
-		const {
-			isLoading,
-			isFollowingProgress,
-			isError,
-			users,
-			totalUsersCount,
-			pageSize,
-			currentPage,
-		} = this.props;
+		const { isLoading, isFollowingProgress, isError, users, totalUsersCount, pageSize, currentPage } = this.props;
 
 		return isError ? (
-			<img
-				src="https://i.pinimg.com/originals/13/9a/19/139a190b930b8efdecfdd5445cae7754.png"
-				alt="Error"
-			/>
+			<img src="https://i.pinimg.com/originals/13/9a/19/139a190b930b8efdecfdd5445cae7754.png" alt="Error" />
 		) : isLoading ? (
 			<Spinner />
 		) : (
@@ -74,28 +54,27 @@ class UsersContainer extends Component {
 				isFollowingProgress={isFollowingProgress}
 				onPreviousPageClick={this.onPreviousPageClick}
 				onNextPageClick={this.onNextPageClick}
+				isAuth={this.props.isAuth}
 			/>
 		);
 	}
 }
 
 const mapStateToProps = (state) => ({
-	users: state.searchPage.users,
-	pageSize: state.searchPage.pageSize,
-	totalUsersCount: state.searchPage.totalUsersCount,
-	currentPage: state.searchPage.currentPage,
-	isLoading: state.searchPage.isLoading,
-	isFollowingProgress: state.searchPage.isFollowingProgress,
-	isError: state.searchPage.isError,
+	users: getUsers(state),
+	pageSize: getPageSize(state),
+	totalUsersCount: getTotalUsersCount(state),
+	currentPage: getCurrentPage(state),
+	isLoading: getIsLoading(state),
+	isFollowingProgress: getIsFollowingProgress(state),
+	isError: getIsError(state),
+	isAuth: getIsAuth(state),
 });
 
 const mapDispatchToProps = {
-	getUsers,
+	requestUsers,
 	setFollow,
 	setUnfollow,
 };
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withAuthRedirect
-)(UsersContainer);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(UsersContainer);

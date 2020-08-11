@@ -1,15 +1,40 @@
-.avatar {
-    border-radius: 10px;
-    width: 200px;
-    height: auto;
-    margin-right: 30px;
+.avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .avatar {
+        cursor: pointer;
+        border-radius: 10px;
+        width: 200px;
+        height: auto;
+        margin-right: 30px;
+    }
+    .select-new-avatar {
+        input[type="file"] {
+            display: none;
+        }
+        margin-right: 30px;
+        cursor: pointer;
+        background-color: #00b8ff;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 18px;
+        padding: 15px;
+        font-family: monospace;
+        display: flex;
+        font-display: row;
+        margin-top: 10px;
+    }
 }
 
 @media(max-width: 992px) {}
 
 @media(max-width: 576px) {
-    .avatar {
-        width: 50%;
-        margin-right: 0px;
+    .avatar-wrapper {
+        .avatar {
+            width: 50%;
+            margin-right: 0px;
+        }
     }
 }

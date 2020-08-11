@@ -10,7 +10,10 @@ const ProfileHeader = (props) => {
 	}
 	return (
 		<div className="header">
-			<ProfileAvatar photo={props.userData.photos.large} />
+			<ProfileAvatar
+				photo={props.userData.photos.large}
+				updateUserPhoto={props.updateUserPhoto}
+			/>
 			<ProfileDescription {...props} />
 		</div>
 	);

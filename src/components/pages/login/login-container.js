@@ -1,38 +1,31 @@
 import React, { Component } from 'react';
 import Login from './login';
 import { connect } from 'react-redux';
-import { getAuthUserData } from '../../../redux/reducers/auth-reducer';
+import { authLogin } from '../../../redux/reducers/auth-reducer';
 import Spinner from '../../common/spinner/spinner';
-import { Redirect } from 'react-router';
 
 class LoginContainer extends Component {
-	state = {
-		redirect: false,
-	};
-
-	componentDidMount() {
-		this.props.getAuthUserData();
-
-		this.setState({
-			redirect: true,
-		});
-	}
-
 	render() {
 		return this.props.isLoading ? (
 			<Spinner />
-		) : this.state.redirect ? (
-			<Redirect to="/profile" />
 		) : (
-			<Login />
+			<Login
+				authLogin={this.props.authLogin}
+				isAuth={this.props.isAuth}
+				isShowingCaptcha={this.props.isShowingCaptcha}
+				captcha={this.props.captcha}
+			/>
 		);
 	}
 }
 
 const mapStateToProps = (state) => ({
 	isLoading: state.auth.isLoading,
+	isAuth: state.auth.isAuth,
+	isShowingCaptcha: state.auth.isShowingCaptcha,
+	captcha: state.auth.captcha,
 });
 
-const mapDispatchToProps = { getAuthUserData };
+const mapDispatchToProps = { authLogin };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './header.scss';
 import Navigation from './navigation';
 import Logo from '../common/logo/logo';
