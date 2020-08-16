@@ -23,3 +23,36 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+::-webkit-scrollbar {
+    /* 1 - скроллбар */
+    width: 4px;
+    height: 4px;
+    background-color: #001935;
+}
+
+ ::-webkit-scrollbar-button {
+    /* 2 - кнопка */
+}
+
+ ::-webkit-scrollbar-track {
+    /* 3 - трек */
+}
+
+ ::-webkit-scrollbar-track-piece {
+    /* 4 - видимая часть трека */
+}
+
+ ::-webkit-scrollbar-thumb {
+    /* 5 - ползунок */
+    border-radius: 2px;
+    background-color: #FFFFFF;
+}
+
+ ::-webkit-scrollbar-corner {
+    /* 6 - уголок */
+}
+
+ ::-webkit-resizer {
+    /* 7 - изменение размеров */
+}

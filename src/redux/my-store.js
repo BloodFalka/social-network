@@ -1,6 +1,6 @@
 import friendsReducer from './reducers/friends-reducer';
 import messageReducer from './reducers/message-reducer';
-import newPostReducer from './reducers/new-post-reducer';
+import newPostReducer from './reducers/posts-reducer';
 import profileReducer from './reducers/profile-reducer';
 
 let store = {
@@ -57,13 +57,12 @@ let store = {
 			],
 			data: {
 				name: 'MC Antoha',
-				avatar:
-					'https://i.pinimg.com/564x/06/c7/df/06c7df7ec5a9295a21f6c2040992376e.jpg',
+				avatar: 'https://i.pinimg.com/564x/06/c7/df/06c7df7ec5a9295a21f6c2040992376e.jpg',
 				dateOfBirth: '12.28.1999',
 				city: 'Bila Tserkva',
 			},
 		},
-		newPostPage: {
+		postsPage: {
 			newPostText: '',
 		},
 		messagePage: {
@@ -71,8 +70,7 @@ let store = {
 				{
 					id: 1,
 					name: 'Anton Ivanchuk Volodymirovich',
-					avatar:
-						'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+					avatar: 'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
 				},
 				{
 					id: 2,
@@ -81,8 +79,7 @@ let store = {
 				{
 					id: 3,
 					name: 'Nazar',
-					avatar:
-						'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
+					avatar: 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
 				},
 				{
 					id: 4,
@@ -109,15 +106,13 @@ let store = {
 				{
 					id: 1,
 					message: '25 grn plz beatch',
-					avatar:
-						'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+					avatar: 'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
 					likesCount: 0,
 				},
 				{
 					id: 2,
 					message: 'No, you are Batman, beatch',
-					avatar:
-						'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
+					avatar: 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
 					likesCount: 0,
 					myMessage: true,
 				},

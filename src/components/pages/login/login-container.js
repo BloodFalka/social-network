@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Login from './login';
 import { connect } from 'react-redux';
-import { authLogin } from '../../../redux/reducers/auth-reducer';
+import { authLogin } from '../../../redux/reducers/auth-reducer.ts';
 import Spinner from '../../common/spinner/spinner';
 
 class LoginContainer extends Component {

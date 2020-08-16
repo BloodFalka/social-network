@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './header.scss';
 import Header from './header';
+import { updateTerm, requestUsers } from '../../redux/reducers/users-reducer';
 import { connect } from 'react-redux';
 
-class HeaderContainer extends Component {
-	componentDidMount() {}
+const HeaderContainer = (props) => {
+	return <Header {...props} />;
+};
+const mapStateToProps = (state) => ({ isAuth: state.auth.isAuth, searchTerm: state.searchPage.searchTerm });
 
-	render() {
-		return <Header isAuth={this.props.isAuth} />;
-	}
-}
-const mapStateToProps = (state) => ({ isAuth: state.auth.isAuth });
-
-const mapDispatchToProps = {};
+const mapDispatchToProps = { updateTerm, requestUsers };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);

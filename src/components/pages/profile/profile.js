@@ -1,7 +1,7 @@
-import React from 'react';
-import './profile.scss';
-import ProfileHeader from './profile-header';
-import MyPosts from './my-posts';
+import React from 'react'
+import './profile.scss'
+import ProfileHeader from './profile-header'
+import MyPosts from './my-posts'
 
 const Profile = (props) => {
 	return (
@@ -14,9 +14,15 @@ const Profile = (props) => {
 				updateUserPhoto={props.updateUserPhoto}
 				updateUserData={props.updateUserData}
 			/>
-			<MyPosts posts={props.posts} />
+			<MyPosts
+				posts={props.posts}
+				addLike={props.addLike}
+				removeLike={props.removeLike}
+				removePost={props.removePost}
+				editPost={props.editPost}
+			/>
 		</div>
-	);
-};
+	)
+}
 
-export default Profile;
+export default Profile

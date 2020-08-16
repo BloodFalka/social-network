@@ -1,6 +1,25 @@
 const ADD_MESSAGE = 'message/ADD_MESSAGE';
 
-let initialState = {
+type dialogsType = {
+	id: number
+	name: string
+	avatar: string|null
+}
+
+type messagesType = {
+	id: number
+	message: string
+	avatar: string|null
+	likesCount: number
+}
+
+type initialStateType = {
+	dialogs: Array<dialogsType>
+	messages: Array<messagesType>
+	userAvatar: string|null
+}
+
+let initialState: initialStateType = {
 	dialogs: [
 		{
 			id: 1,
@@ -11,6 +30,7 @@ let initialState = {
 		{
 			id: 2,
 			name: 'Luda',
+			avatar:null
 		},
 		{
 			id: 3,
@@ -21,22 +41,27 @@ let initialState = {
 		{
 			id: 4,
 			name: 'Evans',
+			avatar:null
 		},
 		{
 			id: 5,
 			name: 'Vitalii Kovalev',
+			avatar:null
 		},
 		{
 			id: 6,
 			name: 'Telepen',
+			avatar:null
 		},
 		{
 			id: 7,
 			name: 'Typii',
+			avatar:null
 		},
 		{
 			id: 8,
 			name: 'Tygiy',
+			avatar:null
 		},
 	],
 	messages: [
@@ -53,14 +78,15 @@ let initialState = {
 			avatar:
 				'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
 			likesCount: 0,
-			myMessage: true,
 		},
 	],
 	userAvatar:
 		'https://i.pinimg.com/564x/06/c7/df/06c7df7ec5a9295a21f6c2040992376e.jpg',
 };
 
-const messageReducer = (state = initialState, action) => {
+type messageActionsTypes = addMessageActionTypes
+
+const messageReducer = (state = initialState, action:messageActionsTypes): initialStateType => {
 	switch (action.type) {
 		case ADD_MESSAGE:
 			let newMessage = {
@@ -79,6 +105,8 @@ const messageReducer = (state = initialState, action) => {
 	}
 };
 
-export const addMessage = (text) => ({ type: ADD_MESSAGE, text });
+type addMessageActionTypes = {type: typeof ADD_MESSAGE, text: string}
+
+export const addMessage = (text: string):addMessageActionTypes => ({ type: ADD_MESSAGE, text });
 
 export default messageReducer;

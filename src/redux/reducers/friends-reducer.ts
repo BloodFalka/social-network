@@ -1,4 +1,15 @@
-let initialState = {
+type initialStateTypes={
+	friends: Array<initialStateFriend>
+}
+
+type initialStateFriend ={
+	id: number
+	name: string
+	status: string
+	avatar: string
+}
+
+let initialState: initialStateTypes = {
 	friends: [
 		{
 			id: 1,
@@ -67,10 +78,10 @@ let initialState = {
 	],
 };
 
-const friendsReducer = (state = initialState, action) => {
+const friendsReducer = (state = initialState, action:any):initialStateTypes => {
 	switch (action.type) {
 		default:
-			return state;
+			return {...state}
 	}
 };
 

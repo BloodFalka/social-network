@@ -44,6 +44,10 @@
         fill: black;
         width: 10%;
         height: 18px;
+        cursor: pointer;
+        &:hover {
+            fill: #0fadad;
+        }
     }
 }
 

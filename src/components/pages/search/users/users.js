@@ -4,19 +4,9 @@ import './users.scss';
 import Button from '../../../common/button';
 
 const Users = (props) => {
-	const {
-		users,
-		totalUsersCount,
-		currentPage,
-		pageSize,
-		onUnfollow,
-		onFollow,
-		isFollowingProgress,
-	} = props;
+	const { users, totalUsersCount, currentPage, pageSize, onUnfollow, onFollow, isFollowingProgress } = props;
 	const pagesCount =
-		(totalUsersCount / pageSize) % 1 === 0
-			? totalUsersCount / pageSize
-			: Math.ceil(totalUsersCount / pageSize);
+		(totalUsersCount / pageSize) % 1 === 0 ? totalUsersCount / pageSize : Math.ceil(totalUsersCount / pageSize);
 	const usersTemplate = users.map((item) => {
 		return (
 			<User
@@ -36,19 +26,22 @@ const Users = (props) => {
 
 	return (
 		<div className="users-page">
-			<div className="button-wrapper prev">
-				<Button
-					onClick={() => props.onPreviousPageClick()}
-					text="← Show Previous Page"
-				/>
-			</div>
-			<div className="users">{usersTemplate}</div>
-			<div className="button-wrapper next">
-				<Button
-					onClick={() => props.onNextPageClick()}
-					text="Show Next Page →"
-				/>
-			</div>
+			{pagesCount > 1 && (
+				<div className="button-wrapper prev">
+					<Button onClick={() => props.onPreviousPageClick()} text="← Show Previous Page" />
+				</div>
+			)}
+			{usersTemplate.length ? (
+				<div className="users">{usersTemplate}</div>
+			) : (
+				<div className="no-users">Users not found</div>
+			)}
+			{pagesCount > 1 && (
+				<div className="button-wrapper next">
+					<Button onClick={() => props.onNextPageClick()} text="Show Next Page →" />
+				</div>
+			)}
+
 			<div className="information">
 				<div>Total Users: {totalUsersCount}</div>
 				<div>Pages: {pagesCount}</div>

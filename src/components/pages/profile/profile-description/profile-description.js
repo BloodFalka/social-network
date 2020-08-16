@@ -133,15 +133,15 @@ const SocialsLink = ({ name, url }) => {
 		<div>
 			<SocialIcons
 				className="socials-link"
-				borderColor="rgba(0,0,0,0.25)"
+				borderColor="rgba(255,255,255,0.25)"
 				borderWidth="2"
 				borderStyle="solid"
 				iconColor="rgba(255,255,255,1)"
-				backgroundColor="rgba(28,186,223,1)"
+				backgroundColor="rgba(0,0,0,0)"
 				iconSize="5"
 				roundness="20%"
 				size="45"
-				icon={name === ('website' || 'mainLink') ? 'web' : name}
+				icon={name === 'website' ? 'web' : name === 'mainLink' ? 'favorite' : name}
 				url={url}
 			/>
 		</div>

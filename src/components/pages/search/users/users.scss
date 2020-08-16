@@ -6,6 +6,14 @@
         align-items: center;
         grid-gap: 20px;
     }
+    .no-users {
+        margin-top: 200px;
+        text-shadow: 3px 2px 2px #f92b66, -2px -2px 2px #17a2b8;
+        font-size: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .information {
         font-family: monospace;
         margin-top: 20px;

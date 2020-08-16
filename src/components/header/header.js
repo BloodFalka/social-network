@@ -9,7 +9,7 @@ const Header = (props) => {
 		<header className="app-header">
 			<div className="container">
 				<Logo />
-				<SearchInput />
+				<SearchInput searchTerm={props.searchTerm} updateTerm={props.updateTerm} requestUsers={props.requestUsers} />
 				<Navigation isAuth={props.isAuth} />
 			</div>
 		</header>
