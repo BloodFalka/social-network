@@ -18,6 +18,9 @@ import { compose } from 'redux';
 import Button from '../../common/button';
 import { userDataType, postsType, userPhotoFileType } from '../../../types/types';
 import { AppStateType } from '../../../redux/store';
+import { selectPosts } from '../../../redux/selectors/posts-selector';
+import { selectUserData, selectUserStatus, selectIsLoading } from '../../../redux/selectors/profile-selector';
+import { selectIsAuth, selectUserId } from '../../../redux/selectors/auth-selector';
 
 
 type PropsType = {
@@ -99,19 +102,19 @@ class ProfileContainer extends Component<PropsType> {
 					removePost={this.props.removePost}
 					editPost={this.props.editPost}
 				/>
-				{!this.props.match.params.userId && <Button text="Logut" color="#f92b66" onClick={this.onLogoutClick} />}
+				{!this.props.match.params.userId && <Button text="Logut" color="#f92b66" disabled={false} onClick={this.onLogoutClick} />}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state:AppStateType) => ({
-	userData: state.profilePage.userData,
-	posts: state.postsPage.posts,
-	status: state.profilePage.status,
-	isLoading: state.profilePage.isLoading,
-	isAuth: state.auth.isAuth,
-	currentUserId: state.auth.data.userId,
+	userData: selectUserData(state),
+	posts: selectPosts(state),
+	status: selectUserStatus(state),
+	isLoading: selectIsLoading(state),
+	isAuth: selectIsAuth(state),
+	currentUserId: selectUserId(state),
 });
 
 const mapDispatchToProps = {

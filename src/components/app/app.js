@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import './app.scss';
-import HeaderContainer from '../header/headerContainer';
-import MainContent from '../main-content';
-import { initializeApp } from '../../redux/reducers/app-reducer.ts';
-import { withRouter, BrowserRouter as Router } from 'react-router-dom';
-import { connect, Provider } from 'react-redux';
-import { compose } from 'redux';
-import Spinner from '../common/spinner/spinner';
-import Favicon from 'react-favicon';
-import store from '../../redux/store';
-import UpperNavigation from '../header/upper-navigation/upper-navigation';
+import React, { Component } from 'react'
+import './app.scss'
+import HeaderContainer from '../header/headerContainer'
+import MainContent from '../main-content'
+import { initializeApp } from '../../redux/reducers/app-reducer.ts'
+import { withRouter, BrowserRouter as Router } from 'react-router-dom'
+import { connect, Provider } from 'react-redux'
+import { compose } from 'redux'
+import Spinner from '../common/spinner/spinner'
+import Favicon from 'react-favicon'
+import store from '../../redux/store'
+import UpperNavigation from '../header/upper-navigation/upper-navigation'
+import { selectInitialized } from '../../redux/selectors/app-selector'
 
 class App extends Component {
 	componentDidMount() {
-		this.props.initializeApp();
+		this.props.initializeApp()
 	}
 	render() {
 		return this.props.initialized ? (
@@ -24,17 +25,20 @@ class App extends Component {
 			</div>
 		) : (
 			<Spinner />
-		);
+		)
 	}
 }
 
 const mapStateToProps = (state) => ({
-	initialized: state.app.initialized,
-});
+	initialized: selectInitialized(state),
+})
 
-const mapDispatchToProps = { initializeApp };
+const mapDispatchToProps = { initializeApp }
 
-const AppContainer = compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+const AppContainer = compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
+)(App)
 
 const DeadSocialApp = () => {
 	return (
@@ -44,7 +48,7 @@ const DeadSocialApp = () => {
 				<AppContainer />
 			</Provider>
 		</Router>
-	);
-};
+	)
+}
 
-export default DeadSocialApp;
+export default DeadSocialApp
