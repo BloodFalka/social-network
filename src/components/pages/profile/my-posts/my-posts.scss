@@ -4,6 +4,12 @@
 
 @media(max-width: 768px) {
     .my-posts {
-        width: 100%;
+        width: 80%;
+    }
+}
+
+@media(max-width: 576px) {
+    .my-posts {
+        width: 95%;
     }
 }

@@ -5,8 +5,15 @@
     grid-area: content;
     .container {
         max-width: 990px;
-        padding: 0 8px;
+        padding: 0;
         box-sizing: border-box;
         margin: 0 auto;
+    }
+}
+
+@media(max-width: 576px) {
+    .content {
+        color: white;
+        padding: 15px 10px;
     }
 }

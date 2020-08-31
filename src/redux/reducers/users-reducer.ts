@@ -1,25 +1,18 @@
-import { userType } from './../../types/types';
-import { usersAPI, followAPI } from '../../api'
+import { UserType } from './../../types/types';
+import { followAPI } from "../../api/followAPI";
+import { usersAPI } from "../../api/usersAPI";
 import { updateObjectInArray } from '../../utils/objects-helpers'
+import { InferActionsTypes, BaseThunkType } from '../store';
+import { Dispatch } from 'react';
 
-const FOLLOW = 'users/FOLLOW',
-	UNFOLLOW = 'users/UNFOLLOW',
-	SET_USERS = 'users/SET_USERS',
-	SET_PREVIOUS_PAGE = 'users/SET_PREVIOUS_PAGE',
-	SET_NEXT_PAGE = 'users/SET_NEXT_PAGE',
-	SET_TOTAL_USERS_COUNT = 'users/SET_TOTAL_USERS_COUNT',
-	UPDATE_TERM = 'users/UPDATE_TERM',
-	TOGGLE_LOADING = 'users/TOGGLE_LOADING',
-	TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE_IS_FOLLOWING_PROGRESS',
-	TOGGLE_ERROR = 'users/TOGGLE_LOADING'
-
-
+//INITIAL STATE TYPE
+//
 let initialState = {
-	users: [] as Array<userType>,
+	users: [] as Array<UserType>,
 	pageSize: 6,
 	totalUsersCount: 0,
 	currentPage: 1,
-	isFollowingProgress: [] as Array<number>,
+	FollowingProgress: [] as Array<number>,
 	isLoading: false,
 	isError: false,
 	searchTerm: '',
@@ -27,62 +20,64 @@ let initialState = {
 
 type initialStateType = typeof initialState
 
-const usersReducer = (state = initialState, action:any):initialStateType => {
+//REDUCER
+//
+const usersReducer = (state = initialState, action:UsersActionTypes):initialStateType => {
 	switch (action.type) {
-		case FOLLOW:
+		case 'users/FOLLOW':
 			return {
 				...state,
 				users: updateObjectInArray(state.users, action.userId, 'id', {
 					followed: true,
 				}),
 			}
-		case UNFOLLOW:
+		case 'users/UNFOLLOW':
 			return {
 				...state,
 				users: updateObjectInArray(state.users, action.userId, 'id', {
 					followed: false,
 				}),
 			}
-		case SET_USERS:
+		case 'users/SET_USERS':
 			return {
 				...state,
 				users: [...action.users],
 			}
-		case SET_TOTAL_USERS_COUNT:
+		case 'users/SET_TOTAL_USERS_COUNT':
 			return {
 				...state,
 				totalUsersCount: action.count,
 			}
-		case SET_NEXT_PAGE:
+		case 'users/SET_NEXT_PAGE':
 			return {
 				...state,
 				currentPage:
 					state.currentPage + 1 > Math.ceil(state.totalUsersCount / state.pageSize) ? 1 : state.currentPage + 1,
 			}
-		case SET_PREVIOUS_PAGE:
+		case 'users/SET_PREVIOUS_PAGE':
 			return {
 				...state,
 				currentPage:
 					state.currentPage - 1 < 1 ? Math.ceil(state.totalUsersCount / state.pageSize) : state.currentPage - 1,
 			}
-		case UPDATE_TERM:
+		case 'users/UPDATE_TERM':
 			return {
 				...state,
 				searchTerm: action.term,
 			}
-		case TOGGLE_LOADING:
+		case 'users/TOGGLE_LOADING':
 			return {
 				...state,
 				isLoading: action.isLoading,
 			}
-		case TOGGLE_IS_FOLLOWING_PROGRESS:
+		case 'users/TOGGLE_IS_FOLLOWING_PROGRESS':
 			return {
 				...state,
-				isFollowingProgress: action.isFollowingProgress
-					? [...state.isFollowingProgress, action.userId]
-					: state.isFollowingProgress.filter((id) => id !== action.userId),
+				FollowingProgress: action.isFollowingProgress
+					? [...state.FollowingProgress, action.userId]
+					: state.FollowingProgress.filter((id) => id !== action.userId),
 			}
-		case TOGGLE_ERROR:
+		case 'users/TOGGLE_ERROR':
 			return {
 				...state,
 				isError: action.isError,
@@ -92,132 +87,94 @@ const usersReducer = (state = initialState, action:any):initialStateType => {
 	}
 }
 
-type usersActionTypes = followActionType|
-unfollowActionType|
-setUsersActionType|
-setTotalUsersCountActionType|
-setNextPageActionType|
-setPreviousPageActionType|
-updateTermActionType|
-toggleLoadingActionType|
-toggleFollowingProgressActionType|
-toggleErrorActionType
+
+//ACTIONS TYPES
+//
+type UsersActionTypes = InferActionsTypes<typeof actions>
+
 //ACTIONS
-
-type followActionType = {
-	type: typeof FOLLOW
-	userId: number
+//
+export const actions = {
+	follow: (userId: number) => ({ type: 'users/FOLLOW', userId } as const),
+	unfollow: (userId:number) => ({ type: 'users/UNFOLLOW', userId }as const),
+	setUsers: (users:Array<UserType>) => ({ type: 'users/SET_USERS', users }as const),
+	setTotalUsersCount: (count:number) => ({
+		type: 'users/SET_TOTAL_USERS_COUNT',
+		count,
+	}as const),
+	setNextPage: () => ({
+		type: 'users/SET_NEXT_PAGE',
+	}as const),
+	setPreviousPage: () => ({
+		type: 'users/SET_PREVIOUS_PAGE',
+	}as const),
+	updateTerm: (term:string) => ({ type: 'users/UPDATE_TERM', term }as const),
+	toggleLoading: (isLoading:boolean) => ({
+		type: 'users/TOGGLE_LOADING',
+		isLoading,
+	}as const),
+	toggleError: (isError:boolean) => ({
+		type: 'users/TOGGLE_ERROR',
+		isError,
+	}as const),
+	toggleFollowingProgress: (isFollowingProgress:boolean, userId:number) => ({
+		type: 'users/TOGGLE_IS_FOLLOWING_PROGRESS',
+		isFollowingProgress,
+		userId,
+	}as const)
 }
-
-type unfollowActionType = {
-	type: typeof UNFOLLOW
-	userId: number
-}
-
-type setUsersActionType = {
-	type: typeof SET_USERS
-	users: Array<userType>
-}
-
-type setTotalUsersCountActionType = {
-	type: typeof SET_TOTAL_USERS_COUNT
-	count: number
-}
-
-type setNextPageActionType = {
-	type: typeof SET_NEXT_PAGE
-}
-
-type setPreviousPageActionType = {
-	type: typeof SET_PREVIOUS_PAGE
-}
-
-type updateTermActionType = {
-	type: typeof UPDATE_TERM
-	term: string
-}
-type toggleLoadingActionType = {
-	type: typeof TOGGLE_LOADING
-	isLoading: boolean
-}
-type toggleFollowingProgressActionType = {
-	type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
-	isFollowingProgress: boolean
-	userId: number
-}
-type toggleErrorActionType = {
-	type: typeof TOGGLE_ERROR
-	isError: boolean
-}
-
-export const follow = (userId: number):followActionType => ({ type: FOLLOW, userId })
-export const unfollow = (userId:number):unfollowActionType => ({ type: UNFOLLOW, userId })
-export const setUsers = (users:Array<userType>):setUsersActionType => ({ type: SET_USERS, users })
-export const setTotalUsersCount = (count:number):setTotalUsersCountActionType => ({
-	type: SET_TOTAL_USERS_COUNT,
-	count,
-})
-export const setNextPage = ():setNextPageActionType => ({
-	type: SET_NEXT_PAGE,
-})
-export const setPreviousPage = ():setPreviousPageActionType => ({
-	type: SET_PREVIOUS_PAGE,
-})
-export const updateTerm = (term:string):updateTermActionType => ({ type: UPDATE_TERM, term })
-
-export const toggleLoading = (isLoading:boolean):toggleLoadingActionType => ({
-	type: TOGGLE_LOADING,
-	isLoading,
-})
-export const toggleFollowingProgress = (isFollowingProgress:boolean, userId:number):toggleFollowingProgressActionType => ({
-	type: TOGGLE_IS_FOLLOWING_PROGRESS,
-	isFollowingProgress,
-	userId,
-})
-export const toggleError = (isError:boolean):toggleErrorActionType => ({
-	type: TOGGLE_ERROR,
-	isError,
-})
 
 //THUNKS
+type DispatchType = Dispatch<UsersActionTypes>
+type ThunkType = BaseThunkType<UsersActionTypes>
 
-export const requestUsers = (totalUsersCount:number, pageSize:number, currentPage:number, page:any = false) => {
-	return async (dispatch:any, getState:any) => {
-		dispatch(toggleLoading(true))
-		const term = getState().searchPage.searchTerm
-		let data = await usersAPI.requestUsers(totalUsersCount, pageSize, currentPage, page, term)
+export const getUsers = (totalUsersCount:number, pageSize:number, currentPage:number, page?:'prev'|'next'):ThunkType => {
+	return async (dispatch, getState) => {
+		dispatch(actions.toggleLoading(true))
+		const term = getState().usersPage.searchTerm
+		const pagesCount = totalUsersCount / pageSize
 
-		dispatch(toggleLoading(false))
-		page === 'prev' && dispatch(setPreviousPage())
-		page === 'next' && dispatch(setNextPage())
+		const prevPage = currentPage - 1 < 1 ? Math.ceil(pagesCount) : currentPage - 1
+		const nextPage = currentPage + 1 > Math.ceil(pagesCount) ? 1 : currentPage + 1
 
-		dispatch(setUsers(data.items))
+		const showingPage = page === 'prev' ? prevPage : page === 'next' ? nextPage : currentPage
+		let data = await usersAPI.getUsers(showingPage, pageSize, term)
 
-		dispatch(setTotalUsersCount(data.totalCount))
+		dispatch(actions.toggleLoading(false))
+		page === 'prev' && dispatch(actions.setPreviousPage())
+		page === 'next' && dispatch(actions.setNextPage())
+
+		dispatch(actions.setUsers(data.items))
+
+		dispatch(actions.setTotalUsersCount(data.totalCount))
 	}
 }
 
-const followUnfollowFlow = async (dispatch:any, userId:number, apiMethod:any, actionCreator:any) => {
-	dispatch(toggleFollowingProgress(true, userId))
+const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMethod:typeof followAPI.setUnfollow|typeof followAPI.setFollow, actionCreator:(userId:number)=>UsersActionTypes) => {
+	dispatch(actions.toggleFollowingProgress(true, userId))
 
 	let data = await apiMethod(userId)
 	if (data.resultCode === 0) {
 		dispatch(actionCreator(userId))
+		//TODO: is just for api test
+		let followed = await followAPI.getIsMeFollow(userId)
+		console.log(`I follow on user id=${userId}: ${followed}`)
+		//TODO: getIsMeFollow api works fine
 	} else {
-		dispatch(toggleError(true))
+		dispatch(actions.toggleError(true))
 	}
-	dispatch(toggleFollowingProgress(false, userId))
+	dispatch(actions.toggleFollowingProgress(false, userId))
 }
 
-export const setFollow = (userId:number) => {
-	return async (dispatch:any) => {
-		followUnfollowFlow(dispatch, userId, followAPI.setFollow.bind(followAPI), follow)
+export const setFollow = (userId:number):ThunkType => {
+	return async (dispatch) => {
+		_followUnfollowFlow(dispatch, userId, followAPI.setFollow.bind(followAPI), actions.follow)
 	}
 }
 
-export const setUnfollow = (userId:number) => {
-	return async (dispatch:any) => {
-		followUnfollowFlow(dispatch, userId, followAPI.setUnfollow.bind(followAPI), unfollow)
+export const setUnfollow = (userId:number):ThunkType => {
+	return async (dispatch) => {
+		_followUnfollowFlow(dispatch, userId, followAPI.setUnfollow.bind(followAPI), actions.unfollow)
 	}
 }
 

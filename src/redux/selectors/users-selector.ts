@@ -1,29 +1,33 @@
 import { AppStateType } from '../store'
 
-export const getUsers = (state: AppStateType) => {
-	return state.searchPage.users
+export const selectUsers = (state: AppStateType) => {
+	return state.usersPage.users
 }
 
-export const getPageSize = (state: AppStateType) => {
-	return state.searchPage.pageSize
+export const selectPageSize = (state: AppStateType) => {
+	return state.usersPage.pageSize
 }
 
-export const getTotalUsersCount = (state: AppStateType) => {
-	return state.searchPage.totalUsersCount
+export const selectTotalUsersCount = (state: AppStateType) => {
+	return state.usersPage.totalUsersCount
 }
 
-export const getCurrentPage = (state: AppStateType) => {
-	return state.searchPage.currentPage
+export const selectCurrentPage = (state: AppStateType) => {
+	return state.usersPage.currentPage
 }
 
-export const getIsLoading = (state: AppStateType) => {
-	return state.searchPage.isLoading
+export const selectSearchTerm = (state: AppStateType): string => {
+	return state.usersPage.searchTerm
 }
 
-export const getIsFollowingProgress = (state: AppStateType) => {
-	return state.searchPage.isFollowingProgress
+export const selectIsLoading = (state: AppStateType) => {
+	return state.usersPage.isLoading
 }
 
-export const getIsError = (state: AppStateType) => {
-	return state.searchPage.isError
+export const selectIsFollowingProgress = (state: AppStateType) => {
+	return state.usersPage.FollowingProgress
+}
+
+export const selectIsError = (state: AppStateType) => {
+	return state.usersPage.isError
 }

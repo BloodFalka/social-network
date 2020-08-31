@@ -32,8 +32,11 @@
 
 @media(max-width: 576px) {
     .avatar-wrapper {
+        .select-new-avatar {
+            margin-right: 0px;
+        }
         .avatar {
-            width: 50%;
+            width: 60%;
             margin-right: 0px;
         }
     }

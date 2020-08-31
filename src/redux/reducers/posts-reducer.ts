@@ -1,17 +1,14 @@
-import { postsType } from "../../types/types"
+import { PostsType } from "../../types/types"
+import { InferActionsTypes } from "../store"
 
-const ADD_POST = 'posts/ADD_POST',
-	ADD_LIKE = 'posts/ADD_LIKE',
-	REMOVE_LIKE = 'posts/REMOVE_LIKE',
-	REMOVE_POST = 'posts/REMOVE_POST',
-	EDIT_POST = 'posts/EDIT_POST'
-
-
-
+//INITIAL STATE TYPE
+//
 type initialStateType = {
-	posts: Array<postsType>
+	posts: Array<PostsType>
 }
 
+//INITIAL STATE
+//
 let initialState:initialStateType = {
 	posts: [
 		{
@@ -70,23 +67,22 @@ let initialState:initialStateType = {
 	],
 }
 
-type postActionTypes = addPostActionTypes|removePostActionTypes|addLikeActionTypes|removeLikeActionTypes|editPostActionTypes
-
+//REDUCER
+//
 const newPostReducer = (state = initialState, action: postActionTypes):initialStateType => {
 	switch (action.type) {
-		case ADD_POST:
-			let newPost = {
-				id: state.posts.length + 1,
+		case 'posts/ADD_POST':
+			let newPost:PostsType = {
+				id: action.id,
 				images: [],
 				message: action.text,
 				likesCount: 0,
 				liked: false,
 			}
 			return { ...state, posts: [newPost, ...state.posts] }
-		case ADD_LIKE:
+		case 'posts/ADD_LIKE':
 			const likedPost = state.posts.filter((post) => post.id === action.postId)[0]
 			const likedPostIndex = state.posts.findIndex((likedPost) => likedPost.id === action.postId)
-			debugger
 			return {
 				...state,
 				posts: [
@@ -95,7 +91,7 @@ const newPostReducer = (state = initialState, action: postActionTypes):initialSt
 					...state.posts.slice(likedPostIndex + 1),
 				],
 			}
-		case REMOVE_LIKE:
+		case 'posts/REMOVE_LIKE':
 			const unLikedPost = state.posts.filter((post) => post.id === action.postId)[0]
 			const unLikedPostIndex = state.posts.findIndex((unLikedPost) => unLikedPost.id === action.postId)
 			return {
@@ -106,13 +102,13 @@ const newPostReducer = (state = initialState, action: postActionTypes):initialSt
 					...state.posts.slice(unLikedPostIndex + 1),
 				],
 			}
-		case REMOVE_POST:
+		case 'posts/REMOVE_POST':
 			const removingPostIndex = state.posts.findIndex((removingPost) => removingPost.id === action.postId)
 			return {
 				...state,
 				posts: [...state.posts.slice(0, removingPostIndex), ...state.posts.slice(removingPostIndex + 1)],
 			}
-		case EDIT_POST:
+		case 'posts/EDIT_POST':
 			const editingPost = state.posts.filter((post) => post.id === action.postId)[0]
 			const editingPostIndex = state.posts.findIndex((editingPost) => editingPost.id === action.postId)
 			return {
@@ -128,38 +124,22 @@ const newPostReducer = (state = initialState, action: postActionTypes):initialSt
 	}
 }
 
-type addPostActionTypes = {
-	type: typeof ADD_POST,
-	text: string
-}
+//ACTION TYPES
+//
+type postActionTypes = InferActionsTypes<typeof actions>
 
-type removePostActionTypes = {
-	type: typeof REMOVE_POST,
-	postId: number
-}
-
-type addLikeActionTypes = {
-	type: typeof ADD_LIKE,
-	postId: number
-}
-
-type removeLikeActionTypes = {
-	type: typeof REMOVE_LIKE,
-	postId: number
-}
-
-type editPostActionTypes = {
-	type: typeof EDIT_POST,
-	postId: number
-	text: string
+//ACTIONS
+//
+export const actions = {
+	addPost: (text: string, id:number|string) => ({ type: 'posts/ADD_POST', text, id } as const),
+	removePost: (postId: number|string) => ({ type: 'posts/REMOVE_POST', postId } as const),
+	addLike: (postId: number|string) => ({ type: 'posts/ADD_LIKE', postId } as const),
+	removeLike: (postId: number|string) => ({ type: 'posts/REMOVE_LIKE', postId } as const),
+	editPost: (postId: number|string, text: string) => ({ type: 'posts/EDIT_POST', postId, text } as const)
 }
 
 
-
-export const addPost = (text: string):addPostActionTypes => ({ type: ADD_POST, text })
-export const removePost = (postId: number):removePostActionTypes => ({ type: REMOVE_POST, postId })
-export const addLike = (postId: number):addLikeActionTypes => ({ type: ADD_LIKE, postId })
-export const removeLike = (postId: number):removeLikeActionTypes => ({ type: REMOVE_LIKE, postId })
-export const editPost = (postId: number, text: string):editPostActionTypes => ({ type: EDIT_POST, postId, text })
+//THUNKS
+//
 
 export default newPostReducer

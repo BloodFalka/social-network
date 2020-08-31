@@ -1,14 +1,14 @@
     .my-post {
+        display: flex;
         color: black;
         font-family: monospace;
         word-break: break-all;
         background-color: #fff;
         border-radius: 10px;
         padding: 10px;
-        display: flex;
         flex-direction: column;
         &+& {
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .likes {
             align-self: flex-end;
@@ -57,7 +57,9 @@
                 margin-bottom: 0;
             }
         }
-        .post-text {}
+        .post-text {
+            white-space: pre-wrap;
+        }
         .post-img {
             border-radius: 10px;
             margin-top: 10px;

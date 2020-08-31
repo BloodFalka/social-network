@@ -1,21 +1,9 @@
-const ADD_MESSAGE = 'message/ADD_MESSAGE';
-
-type dialogsType = {
-	id: number
-	name: string
-	avatar: string|null
-}
-
-type messagesType = {
-	id: number
-	message: string
-	avatar: string|null
-	likesCount: number
-}
+import { MessagesType, DialogsType } from "../../types/types";
+import { InferActionsTypes } from "../store";
 
 type initialStateType = {
-	dialogs: Array<dialogsType>
-	messages: Array<messagesType>
+	dialogs: Array<DialogsType>
+	messages: Array<MessagesType>
 	userAvatar: string|null
 }
 
@@ -30,7 +18,6 @@ let initialState: initialStateType = {
 		{
 			id: 2,
 			name: 'Luda',
-			avatar:null
 		},
 		{
 			id: 3,
@@ -41,27 +28,22 @@ let initialState: initialStateType = {
 		{
 			id: 4,
 			name: 'Evans',
-			avatar:null
 		},
 		{
 			id: 5,
 			name: 'Vitalii Kovalev',
-			avatar:null
 		},
 		{
 			id: 6,
 			name: 'Telepen',
-			avatar:null
 		},
 		{
 			id: 7,
 			name: 'Typii',
-			avatar:null
 		},
 		{
 			id: 8,
 			name: 'Tygiy',
-			avatar:null
 		},
 	],
 	messages: [
@@ -71,6 +53,7 @@ let initialState: initialStateType = {
 			avatar:
 				'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
 			likesCount: 0,
+			liked: false
 		},
 		{
 			id: 2,
@@ -78,22 +61,22 @@ let initialState: initialStateType = {
 			avatar:
 				'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
 			likesCount: 0,
+			liked: false
 		},
 	],
 	userAvatar:
 		'https://i.pinimg.com/564x/06/c7/df/06c7df7ec5a9295a21f6c2040992376e.jpg',
 };
 
-type messageActionsTypes = addMessageActionTypes
-
-const messageReducer = (state = initialState, action:messageActionsTypes): initialStateType => {
+const messageReducer = (state = initialState, action:MessageActionsTypes): initialStateType => {
 	switch (action.type) {
-		case ADD_MESSAGE:
-			let newMessage = {
-				id: state.messages.length + 1,
+		case 'message/ADD_MESSAGE':
+			let newMessage:MessagesType = {
+				id: action.id,
 				message: action.text,
-				avatar: state.userAvatar,
+				avatar: state.userAvatar||null,
 				likesCount: 0,
+				liked: false
 			};
 
 			return {
@@ -105,8 +88,10 @@ const messageReducer = (state = initialState, action:messageActionsTypes): initi
 	}
 };
 
-type addMessageActionTypes = {type: typeof ADD_MESSAGE, text: string}
+type MessageActionsTypes = InferActionsTypes<typeof actions>
 
-export const addMessage = (text: string):addMessageActionTypes => ({ type: ADD_MESSAGE, text });
+export const actions = {
+	addMessage: (text: string, id: number|string) => ({ type: 'message/ADD_MESSAGE', text, id }as const)
+}
 
 export default messageReducer;

@@ -1,138 +1,131 @@
-import { userDataType, photosType , userPhotoFileType} from './../../types/types';
-import { profileAPI } from '../../api';
+import { UserDataType, PhotosType } from './../../types/types';
+import { profileAPI } from "../../api/profileAPI";
+import { InferActionsTypes, BaseThunkType } from '../store';
 
-const SET_USER = 'profile/SET_USER',
-	TOGGLE_LOADING = 'profile/TOGGLE_LOADING',
-	SET_STATUS = 'profile/SET_STATUS',
-	SET_PHOTOS = 'profile/SET_PHOTOS';
-
+//INITIAL STATE TYPE
 let initialState = {
-	userData: null as userDataType|null,
+	userData: null as UserDataType|null,
 	status: '' as string|null,
 	isLoading: false
 };
 
 type initialStateType = typeof initialState
 
-type profileActionsTypes = setUserDataActionType|toggleLoadingActionType|setUserStatusActionType|setUserPhotosActionType
-
-const profileReducer = (state = initialState, action:profileActionsTypes):initialStateType => {
+//REDUCER
+//
+const profileReducer = (state = initialState, action:ProfileActionsTypes):initialStateType => {
 	switch (action.type) {
-		case SET_USER:
+		case 'profile/SET_USER':
 			return { ...state, userData: action.userData };
-		case TOGGLE_LOADING:
+		case 'profile/TOGGLE_LOADING':
 			return {
 				...state,
 				isLoading: action.isLoading,
 			};
-		case SET_STATUS:
+		case 'profile/SET_STATUS':
 			return {
 				...state,
 				status: action.status,
 			};
-		case SET_PHOTOS:
+		case 'profile/SET_PHOTOS':
 			return {
 				...state,
 				userData: {
 					...state.userData,
 					photos: action.photos
-				} as userDataType
+				} as UserDataType
 			}
 		default:
 			return state;
 	}
 };
 
-type setUserDataActionType = {
-	type: typeof SET_USER
-	userData: userDataType
+//ACTIONS TYPES
+//
+type ProfileActionsTypes = InferActionsTypes<typeof actions>
+
+//ACTIONS
+export const actions = {
+	setUserData: (userData:UserDataType) => ({
+		type: 'profile/SET_USER',
+		userData,
+	}as const),
+	toggleLoading: (isLoading:boolean) => ({
+		type: 'profile/TOGGLE_LOADING',
+		isLoading,
+	}as const),
+	setUserStatus: (status:string|null) => ({
+		type: 'profile/SET_STATUS',
+		status,
+	}as const),
+	setUserPhotos: (photos:PhotosType ) => ({
+		type: 'profile/SET_PHOTOS',
+		photos,
+	}as const)
 }
 
-type toggleLoadingActionType = {
-	type: typeof TOGGLE_LOADING
-	isLoading: boolean
-}
+//THUNKS
+//
 
-type setUserStatusActionType = {
-	type: typeof SET_STATUS
-	status: string|null
-}
+type ThunkType = BaseThunkType<ProfileActionsTypes>
 
-type setUserPhotosActionType = {
-	type: typeof SET_PHOTOS
-	photos: photosType
-}
-
-export const setUserData = (userData:userDataType):setUserDataActionType => ({
-	type: SET_USER,
-	userData,
-});
-export const toggleLoading = (isLoading:boolean):toggleLoadingActionType => ({
-	type: TOGGLE_LOADING,
-	isLoading,
-});
-export const setUserStatus = (status:string|null):setUserStatusActionType => ({
-	type: SET_STATUS,
-	status,
-});
-export const setUserPhotos = (photos:photosType ):setUserPhotosActionType => ({
-	type: SET_PHOTOS,
-	photos,
-});
-
-export const getUserProfile = (userId:number, isAuth:boolean) => {
-	return async (dispatch:any) => {
-		dispatch(toggleLoading(true));
+export const getUserProfile = (userId:number|null, isAuth:boolean):ThunkType => {
+	return async (dispatch) => {
+		dispatch(actions.toggleLoading(true));
 
 		if (!isAuth) {
+			dispatch(actions.toggleLoading(false));
 			return;
 		}
 
 		let data = await profileAPI.getProfile(userId);
-		dispatch(toggleLoading(false));
-		dispatch(setUserData(data));
+		dispatch(actions.setUserData(data));
+		dispatch(actions.toggleLoading(false));
 	};
 };
 
-export const getUserStatus = (userId: number) => {
-	return async (dispatch:any) => {
-		let response = await profileAPI.getStatus(userId);debugger
-		dispatch(setUserStatus(response));
+export const getUserStatus = (userId: number|null):ThunkType => {
+	return async (dispatch) => {
+		let data = await profileAPI.getStatus(userId);
+		dispatch(actions.setUserStatus(data));
 	};
 };
 
-export const updateUserStatus = (status: string|null  ) => {
-	return async (dispatch:any) => {
-		dispatch(toggleLoading(true));
-		let response = await profileAPI.setStatus(status);
-		if (response.resultCode === 0) {
-			dispatch(setUserStatus(status));
+export const updateUserStatus = (status: string|null  ):ThunkType => {
+	return async (dispatch) => {
+		dispatch(actions.toggleLoading(true));
+		let data = await profileAPI.setStatus(status);
+		if (data.resultCode === 0) {
+			dispatch(actions.setUserStatus(status));
 		}
-		dispatch(toggleLoading(false));
+		dispatch(actions.toggleLoading(false));
 	};
 };
 
 
-export const updateUserPhoto = (photo:userPhotoFileType) => {
-	return async (dispatch:any) => {
-		dispatch(toggleLoading(true));
-		let response = await profileAPI.setAvatar(photo);debugger
-		if (response.resultCode === 0) {
-			dispatch(setUserPhotos(response.data.photos));
+export const updateUserPhoto = (photo:File):ThunkType => {
+	return async (dispatch) => {
+		dispatch(actions.toggleLoading(true));
+		let data = await profileAPI.setAvatar(photo);
+		if (data.resultCode === 0) {
+			dispatch(actions.setUserPhotos(data.data.photos));
 		}
-		dispatch(toggleLoading(false));
+		dispatch(actions.toggleLoading(false));
 	};
 };
 
-export const updateUserData = (userData:userDataType) => {
-	return async (dispatch:any, getState:any) => {
-		dispatch(toggleLoading(true));
-
-		let response = await profileAPI.setUserData(userData);debugger
-		if (response.resultCode === 0) {
-			dispatch(getUserProfile(getState().profilePage.userData.userId, true));
+export const updateUserData = (userData:UserDataType):ThunkType => {
+	return async (dispatch, getState) => {
+		dispatch(actions.toggleLoading(true));
+		let data = await profileAPI.setUserData(userData)
+		if (data.resultCode === 0) {
+			let userId = getState().profilePage.userData?.userId;
+			if (userId === undefined){
+				userId = null
+			}
+			dispatch(getUserProfile( userId, true));
 		}
-		dispatch(toggleLoading(false));
+		dispatch(actions.toggleLoading(false));
 	};
 };
 

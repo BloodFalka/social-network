@@ -1,0 +1,77 @@
+.photos-page {
+    margin: 30px 0px;
+    .photos {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-left: -30px;
+        width: auto;
+    }
+    .nextPortionObserver {
+        margin-top: -2500px;
+    }
+    .my-masonry-grid_column {
+        padding-left: 30px;
+        background-clip: padding-box;
+    }
+    .information {
+        font-family: monospace;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 30px;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .no-photos {
+        text-shadow: 3px 2px 2px #f92b66, -2px -2px 2px #17a2b8;
+        font-size: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .title {
+        margin-bottom: 20px;
+        text-shadow: 3px 2px 2px #017143, -2px -2px 2px #17a2b8;
+        font-size: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .button-wrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .button {
+            margin: 20px 0px;
+            font-family: monospace;
+        }
+    }
+}
+
+@media(max-width: 992px) {
+    .photos-page {
+        .photos {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .photos-page {
+        .photos {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media(max-width: 576px) {
+    .photos-page {
+        .photos {
+            grid-template-columns: 1fr;
+        }
+    }
+}

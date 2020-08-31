@@ -1,21 +1,11 @@
 .friends {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 20px;
 }
 
-@media(max-width: 992px) {
-    .friends {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+@media(max-width: 992px) {}
 
-@media (max-width: 768px) {
-    .friends {}
-}
+@media (max-width: 768px) {}
 
-@media(max-width: 576px) {
-    .friends {
-        grid-template-columns: 1fr;
-    }
-}
+@media(max-width: 576px) {}

@@ -1,5 +1,5 @@
 //Profile
-export type contactsType = {
+export type ContactsType = {
 	github: string|null
 	vk: string|null
 	facebook: string|null
@@ -9,42 +9,70 @@ export type contactsType = {
 	youtube: string|null
 	mainLink: string|null
 }
-export type photosType = {
+export type PhotosType = {
 	large: string|null
 	small: string|null
 }
-export type userDataType = {
+export type UserDataType = {
 	aboutMe: string
-	userId: number
+	userId: number|null
 	lookingForAJob: boolean
-	lookingForAJobDescription: string|null
+	lookingForAJobDescription: string
 	fullName:string
-	contacts:contactsType
-	photos:photosType
+	contacts:ContactsType
+	photos:PhotosType
 }
 
-export type userType = {
+export type UserType = {
 	id: number
 	name: string
 	status: string
-	photos: photosType
+	photos: PhotosType
 	followed: boolean
 }
 
-export type userPhotoFileType = {
-	lastModified: number
-	lastModifiedDate: any
-	name: string
-	size: number
-	type: string
-	webkitRelativePath: string
-}
+// export type userPhotoFileType = {
+// 	lastModified: number
+// 	lastModifiedDate: number
+// 	name: string
+// 	size: number
+// 	type: string
+// 	webkitRelativePath: string
+// }
 
 //Posts
-export type postsType = {
-	id:number
-	images: Array<string>
+export type PostsType = {
+	id:number|string
+	images: Array<string>|null
 	message: string
 	likesCount: number
 	liked: boolean
+}
+
+export type MessagesType = {
+	id: number|string
+	message: string
+	avatar: string|null
+	likesCount: number
+	liked: boolean
+}
+
+export type DialogsType = {
+	id: number
+	name: string
+	avatar?: string
+}
+
+export type FriendType ={
+	id: number
+	name: string
+	status: string
+	avatar: string|null
+}
+
+export type LoginDataFormValuesType = {
+	email: string
+	password: string
+	rememberMe: boolean
+	captcha: string|null
 }
