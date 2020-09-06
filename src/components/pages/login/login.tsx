@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import './login.scss'
 import Logo from '../../common/logo/logo'
 import Button from '../../common/button/button'
-import { reduxForm, InjectedFormProps } from 'redux-form'
+import { reduxForm, InjectedFormProps, FormErrors } from 'redux-form'
 import { Redirect } from 'react-router-dom'
 import { required, maxLengthCreator, minLengthCreator } from '../../../utils/validator'
 import { Input, createField, ExtractStringKeys } from '../../common/forms-controls/forms-controls'
@@ -14,6 +14,7 @@ const minLength5 = minLengthCreator(5)
 type LoginFormOwnProps = {
 	isShowingCaptcha: boolean
 	captchaImg: string|null
+	submitError: string|undefined
 }
 
 type LoginFormValuesKeys = ExtractStringKeys<LoginDataValues>
@@ -37,7 +38,7 @@ const LoginForm:FC<InjectedFormProps<LoginDataValues, LoginFormOwnProps>& LoginF
 					})}
 				</div>
 			)}
-			{props.error && <div className="form-summary-error">{props.error}</div>}
+			{props.submitError && <div className="form-summary-error">{props.submitError}</div>}
 			<label>
 				{createField<LoginFormValuesKeys>([], undefined, 'rememberMe', Input, {
 					className: 'input remember-me',
@@ -54,14 +55,17 @@ const ReduxLoginForm = reduxForm<LoginDataValues, LoginFormOwnProps>({ form: 'lo
 
 type LoginPropsType = {
 	authLogin: (userLoginData:LoginDataValues) => void
+	reset: (form: string) => void
 	isAuth: boolean
 	isShowingCaptcha: boolean
 	captchaImg: string|null
+	submitErrors: FormErrors<{}, string>;
 }
 
 const Login:FC<LoginPropsType> = (props) => {
 	const onSubmit = (formData: LoginDataValues) => {
 		props.authLogin(formData)
+		props.reset('login')
 	}
 
 	return props.isAuth ? (
@@ -73,6 +77,8 @@ const Login:FC<LoginPropsType> = (props) => {
 				onSubmit={onSubmit}
 				isShowingCaptcha={props.isShowingCaptcha}
 				captchaImg={props.captchaImg}
+				// @ts-ignore
+				submitError={props.submitErrors.error}
 			/>
 		</div>
 	)

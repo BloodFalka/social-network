@@ -37,7 +37,7 @@ const mapDispatchToProps = {
 	reset,
 }
 
-export default compose(
+export default compose<FC>(
 	connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps),
 	withAuthRedirect
 )(DialogsContainer)

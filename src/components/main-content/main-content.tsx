@@ -3,10 +3,10 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import './main-content.scss'
 import withSuspence from '../hoc/with-suspence'
 
-const ProfileContainer = React.lazy<any>(() => import('../pages/profile/profile-container'))
-const NewPostContainer = React.lazy<any>(() => import('../pages/new-post/new-post-container'))
+const ProfileContainer = React.lazy(() => import('../pages/profile/profile-container'))
+const NewPostContainer = React.lazy(() => import('../pages/new-post/new-post-container'))
 const LoginContainer = React.lazy(() => import('../pages/login/login-container'))
-const DialogsContainer = React.lazy<any>(() => import('../pages/dialogs/dialogs-container'))
+const DialogsContainer = React.lazy(() => import('../pages/dialogs/dialogs-container'))
 const FriendsContainer = React.lazy(() => import('../pages/friends/friends-container'))
 const Search = React.lazy(() => import('../pages/search/search'))
 const Page404 = React.lazy(() => import('../pages/page-404/page-404'))

@@ -67,6 +67,7 @@
         }
         &.looking-for-a-job-descr,
         &.about-me {
+            overflow-y: scroll;
             resize: none;
             height: 100px;
         }

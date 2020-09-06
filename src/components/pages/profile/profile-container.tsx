@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import './profile.scss'
 import Profile from './profile'
 import { connect } from 'react-redux'
@@ -47,76 +47,58 @@ type MapStatePropsType = {
 	currentUserId: number | null,
 }
 
-type MatchParamsType = {
+type OwnPropsType = RouteComponentProps<{
 	userId: string,
-}
-type OwnPropsType = RouteComponentProps<MatchParamsType>
+}>
 
 type PropsType = MapDispatchPropsType & MapStatePropsType & OwnPropsType
 
-class ProfileContainer extends Component<PropsType> {
-	state = {
-		redirect: false,
-	}
+const ProfileContainer: FC<PropsType> = (props) => {
+	const [redirect, setRedirect] = useState(false)
 
-	refreshProfile = () => {
-		let userId: number | null = this.props.match.params.userId
-			? +this.props.match.params.userId
-			: this.props.currentUserId
+	const refreshProfile = () => {
+		let userId: number | null = props.match.params.userId ? +props.match.params.userId : props.currentUserId
 
 		if (!userId) {
-			this.setState({
-				redirect: true,
-			})
+			setRedirect(true)
 		} else {
-			this.props.getUserProfile(userId, true)
-			this.props.getUserStatus(userId)
+			props.getUserProfile(userId, true)
+			props.getUserStatus(userId)
 		}
 	}
 
-	componentDidMount() {
-		this.refreshProfile()
+	useEffect(() => {
+		refreshProfile()
+		// eslint-disable-next-line
+	}, [props.match.params.userId])
+
+	const onLogoutClick = () => {
+		props.authLogout()
 	}
 
-	componentDidUpdate(prevProps: PropsType) {
-		if (prevProps.match.params.userId !== this.props.match.params.userId) {
-			this.refreshProfile()
-		}
-	}
+	const isMyPage =
+		props.currentUserId === +props.match.params.userId || !props.match.params.userId ? true : false
 
-	onLogoutClick = () => {
-		this.props.authLogout()
-		this.setState({
-			redirect: true,
-		})
-	}
-
-	render() {
-		const isMyPage =
-			this.props.currentUserId === +this.props.match.params.userId || !this.props.match.params.userId
-				? true
-				: false
-		return this.state.redirect ? (
-			<Redirect to="/login" />
-		) : this.props.isLoading ? (
-			<Spinner />
-		) : (
-			<Profile
-				onLogoutClick={this.onLogoutClick}
-				posts={this.props.posts}
-				userData={this.props.userData}
-				status={this.props.status}
-				updateUserStatus={this.props.updateUserStatus}
-				updateUserPhoto={this.props.updateUserPhoto}
-				updateUserData={this.props.updateUserData}
-				isMyPage={isMyPage}
-				addLike={this.props.addLike}
-				removeLike={this.props.removeLike}
-				removePost={this.props.removePost}
-				editPost={this.props.editPost}
-			/>
-		)
-	}
+	return redirect || !props.isAuth ? (
+		<Redirect to="/login" />
+	) : props.isLoading ? (
+		<Spinner />
+	) : (
+		<Profile
+			onLogoutClick={onLogoutClick}
+			posts={props.posts}
+			userData={props.userData}
+			status={props.status}
+			updateUserStatus={props.updateUserStatus}
+			updateUserPhoto={props.updateUserPhoto}
+			updateUserData={props.updateUserData}
+			isMyPage={isMyPage}
+			addLike={props.addLike}
+			removeLike={props.removeLike}
+			removePost={props.removePost}
+			editPost={props.editPost}
+		/>
+	)
 }
 
 const mapStateToProps = (state: AppStateType) => ({
@@ -142,7 +124,7 @@ const mapDispatchToProps = {
 	editPost,
 }
 
-export default compose(
+export default compose<FC>(
 	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
 		mapStateToProps,
 		mapDispatchToProps

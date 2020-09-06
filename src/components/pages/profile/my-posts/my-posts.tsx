@@ -34,4 +34,4 @@ const MyPosts: FC<PropsType> = (props) => {
 	return <div className="my-posts">{posts}</div>
 }
 
-export default MyPosts
+export default React.memo(MyPosts)

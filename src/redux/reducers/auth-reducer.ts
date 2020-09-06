@@ -1,9 +1,9 @@
 import { securityAPI } from './../../api/securityAPI';
 import { ResultCodesEnum, ResultCodeEnumWithCaptcha } from '../../api/api';
 import { authAPI } from "../../api/authAPI";
-// import { stopSubmit } from 'redux-form';
 import { LoginDataFormValuesType } from '../../types/types';
 import { InferActionsTypes, BaseThunkType } from '../store';
+import { stopSubmit, FormAction } from 'redux-form';
 
 type initialStateType = typeof initialState
 
@@ -69,11 +69,11 @@ export const actions = {
 	setCaptcha: (captchaImage: string|null) => ({
 		type: 'auth/SET_CAPTCHA',
 		captchaImage,
-	}as const)
+	}as const),
 }
 
 //THUNKS
-type ThunkType = BaseThunkType<AuthActionsTypes>
+type ThunkType = BaseThunkType<AuthActionsTypes | FormAction>
 
 
 export const getAuthUserData = ():ThunkType => {
@@ -93,25 +93,24 @@ export const getAuthUserData = ():ThunkType => {
 export const authLogin = (userLoginData:LoginDataFormValuesType):ThunkType => {
 	return async (dispatch) => {
 		dispatch(actions.toggleLoading(true));
-		let data = await authAPI.login(userLoginData);
+		const data = await authAPI.login(userLoginData);
+		const error = data.messages[0]&&{error: data.messages[0]}
 
 		switch (data.resultCode) {
 			case ResultCodesEnum.Succes:
 				dispatch(actions.toggleCaptcha(false));
 				dispatch(getAuthUserData());
 				break;
-			//FIXME: Fix stopSubmit Action
-			// case 1:
-			// 	dispatch(
-			// 		stopSubmit('login', {
-			// 			error: 'Email or password is wrong',
-			// 		})
-			// 	);
-			// 	break;
+			case ResultCodesEnum.Error:
+				dispatch(stopSubmit('login', error||{}));
+				break
 			case ResultCodeEnumWithCaptcha.CaptchaIsRequired:
-				dispatch(actions.toggleCaptcha(true));
-				let data = await securityAPI.getCaptcha();
-				dispatch(actions.setCaptcha(data.url));
+				dispatch(stopSubmit('login', error||{}));
+				if(data.messages[0] === 'Incorrect anti-bot symbols') {
+					dispatch(actions.toggleCaptcha(true));
+					let captcha = await securityAPI.getCaptcha();
+					dispatch(actions.setCaptcha(captcha.url));
+				}
 				break;
 			default:
 				break;

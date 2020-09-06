@@ -24,7 +24,7 @@ type MapStatePropsType = {
 type PropsType = MapDispatchPropsType & MapStatePropsType
 
 const App: FC<PropsType> = ({ initializeApp, initialized }) => {
-	const [error, setError] = useState(false)
+	const [error] = useState(false)
 
 	useEffect(() => {
 		initializeApp()
@@ -36,7 +36,7 @@ const App: FC<PropsType> = ({ initializeApp, initialized }) => {
 	}, [])
 
 	const catchAllUnhandledErrors = () => {
-		setError(true)
+		// setError(true)
 	}
 
 	return initialized ? (

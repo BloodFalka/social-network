@@ -22,7 +22,7 @@ const mapDispatchToProps = {
 	addPost,
 }
 
-export default compose(
+export default compose<React.FC>(
 	connect<{}, MapDispatchPropsType, {}, AppStateType>(null, mapDispatchToProps),
 	withAuthRedirect
 )(NewPostContainer)
