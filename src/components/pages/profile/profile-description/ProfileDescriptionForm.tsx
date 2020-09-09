@@ -12,8 +12,9 @@ import { SocialLinksPropsType } from './socials/SocialLinks'
 import { maxLengthCreator, minLengthCreator } from '../../../../utils/validator'
 import { UserDataType } from '../../../../types/types'
 
-export const maxLength15 = maxLengthCreator(30)
-export const minLength5 = minLengthCreator(5)
+const maxLength15 = maxLengthCreator(15)
+const maxLength200 = maxLengthCreator(200)
+const minLength5 = minLengthCreator(5)
 
 export type ProfileDescriptionFormValuesKeys = ExtractStringKeys<ProfileDescriptionFormValuesType>
 
@@ -54,7 +55,7 @@ const ProfileDescriptionForm: FC<
 			<div>
 				About Me
 				{createField<ProfileDescriptionFormValuesKeys>(
-					[required, maxLength15, minLength5],
+					[maxLength200, minLength5],
 					undefined,
 					'aboutMe',
 					Textarea,

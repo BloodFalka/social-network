@@ -33,7 +33,7 @@ const ProfileStatus: FC<PropsType> = (props: PropsType) => {
 		<div className="status">
 			{!editMode ? (
 				<div className="status-text" onDoubleClick={onStatusDoubleClick}>
-					{status || 'No Status'}
+					{status}
 				</div>
 			) : (
 				<div className="status-edit">

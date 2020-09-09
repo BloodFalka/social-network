@@ -34,10 +34,15 @@ const ProfileDescription:FC<ProfileDescriptionPropsType> = ({ updateUserData, us
 		{!editMode&&userData ? (
 			<div>
 				<ProfileName name={userData.fullName} />
-				{status&&<ProfileStatus isMyPage={isMyPage} status={status} updateUserStatus={updateUserStatus} />}
-				{userData.lookingForAJob && <div> My skills:</div>}
-				<pre className="skills">{userData.lookingForAJobDescription}</pre>
-				<pre className="about-me">{userData.aboutMe}</pre>
+				<ProfileStatus isMyPage={isMyPage} status={status||'No status'} updateUserStatus={updateUserStatus} />
+				{userData.lookingForAJob&&userData.lookingForAJobDescription?
+					<>
+						<div> My skills:</div>
+						<pre className="skills">{userData.lookingForAJobDescription}</pre>
+					</>:
+					null
+				}
+				{userData.aboutMe&&<pre className="about-me">{userData.aboutMe}</pre>}
 				<SocialsLinks contacts={userData.contacts} />
 				{isMyPage && <Button text={'Edit Description'} onClick={onClickEditDescription} />}
 			</div>

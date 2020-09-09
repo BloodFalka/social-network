@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 	},
 })
 
-type srcType = {
+type SrcType = {
     original: string
     large2x: string
     large: string
@@ -20,7 +20,7 @@ type srcType = {
     tiny: string
 }
 
-export type pexelsPhotosType = {
+export type PexelsPhotosType = {
     id: number,
     width: number,
     height: number,
@@ -28,40 +28,40 @@ export type pexelsPhotosType = {
     photographer: string,
     photographer_url: string,
     photographer_id: number,
-    src: srcType,
+    src: SrcType,
     liked: boolean
 }
 
-type getModeratedPhotosResponseType = {
+type GetModeratedPhotosResponseType = {
     total_results: number,
 	page: number,
 	per_page: number,
-	photos: Array<pexelsPhotosType>,
+	photos: Array<PexelsPhotosType>,
 	next_page: string,
 }
 
-type getSearchedPhotosResponseType = {
+type GetSearchedPhotosResponseType = {
     total_results: number,
 	page: number,
 	per_page: number,
-	photos: Array<pexelsPhotosType>,
+	photos: Array<PexelsPhotosType>,
 	next_page: string,
 }
 
 export const pexelsPhotosAPI = {
 	getModeratedPhotos(photosPerPage: number = 30) {
 		return axiosInstance
-			.get<getModeratedPhotosResponseType>(`curated?per_page=${photosPerPage}`)
+			.get<GetModeratedPhotosResponseType>(`curated?per_page=${photosPerPage}`)
 			.then((response) => response.data)
     },
     getSearchedPhotos(photosPerPage: number = 30, searchQuery: string){
         return axiosInstance
-        .get<getSearchedPhotosResponseType>(`search?query=${searchQuery}&per_page=${photosPerPage}`)
+        .get<GetSearchedPhotosResponseType>(`search?query=${searchQuery}&per_page=${photosPerPage}`)
         .then((response) => response.data)
     },
     getNextPage(url: string){
         return axiosInstance
-        .get<getSearchedPhotosResponseType>(url)
+        .get<GetSearchedPhotosResponseType>(url)
         .then((response) => response.data)
     }
 }

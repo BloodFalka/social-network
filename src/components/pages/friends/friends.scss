@@ -4,6 +4,14 @@
     grid-gap: 20px;
 }
 
+.no-friends {
+    text-shadow: 3px 2px 2px #f92b66, -2px -2px 2px #17a2b8;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media(max-width: 992px) {}
 
 @media (max-width: 768px) {}

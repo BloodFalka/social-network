@@ -46,7 +46,6 @@ const NewPost: FC<NewPostPropsType> = (props) => {
 		console.log(formData)
 
 		if (formData.postText) {
-			debugger
 			const id = nextId()
 			props.addPost(formData.postText, id)
 			setRedirect(true)

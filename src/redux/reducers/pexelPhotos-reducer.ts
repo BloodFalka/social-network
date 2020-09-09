@@ -1,12 +1,12 @@
 import { updateUserPhoto, getUserProfile } from './profile-reducer';
 import { InferActionsTypes, BaseThunkType } from '../store';
-import { pexelsPhotosType, pexelsPhotosAPI } from '../../api/pexelsPhotosAPI';
+import { PexelsPhotosType, pexelsPhotosAPI } from '../../api/pexelsPhotosAPI';
 
 
 //INITIAL STATE TYPE
 //
 let initialState = {
-    photos: [] as Array<pexelsPhotosType>,
+    photos: [] as Array<PexelsPhotosType>,
 	searchTerm: '',
 	findedPhotosCount: null as number|null,
 	nextPageUrl: '',
@@ -74,9 +74,9 @@ type PixelPhotosActionTypes = InferActionsTypes<typeof actions>
 //ACTIONS
 //
 export const actions = {
-	setPhotos: (photos:Array<pexelsPhotosType>) => ({ type: 'pixelPhotos/SET_PHOTOS', photos }as const),
+	setPhotos: (photos:Array<PexelsPhotosType>) => ({ type: 'pixelPhotos/SET_PHOTOS', photos }as const),
 	setNextPageUrl: (url: string) => ({ type: 'pixelPhotos/SET_NEXT_PAGE_URL', url }as const),
-	addPhotosFromNextPage: (photos:Array<pexelsPhotosType>) => ({ type: 'pixelPhotos/ADD_PHOTOS', photos }as const),
+	addPhotosFromNextPage: (photos:Array<PexelsPhotosType>) => ({ type: 'pixelPhotos/ADD_PHOTOS', photos }as const),
 	setFindedPhotosCount: (count:number|null) => ({
 		type: 'pixelPhotos/SET_TOTAL_PHOTOS_COUNT',
 		count,
@@ -154,7 +154,6 @@ export const updateUserPhotoFromPexel = (url: string):ThunkType => {
 		const file = new File([blob], 'image.jpg', {type: blob.type});
 
 		if(getState().profilePage.userData){
-			debugger
 			dispatch(updateUserPhoto(file))
 		}else {
 			const userId = getState().auth.data.userId,

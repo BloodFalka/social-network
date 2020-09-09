@@ -5,7 +5,19 @@
     grid-template-areas: 'dialogs messages''dialogs new-message';
     column-gap: 25px;
     row-gap: 25px;
+    .choose-user {
+        font-family: monospace;
+        text-shadow: 3px 2px 2px #f92b66, -2px -2px 2px #17a2b8;
+        font-size: 40px;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
     &-items {
+        max-height: calc(50vh + 125px);
+        overflow: auto;
+        overflow-x: hidden;
         grid-area: dialogs;
     }
 }
@@ -13,16 +25,18 @@
 @media(max-width: 992px) {
     .dialogs {
         grid-template-columns: 10fr;
-        grid-template-rows: 50vh 100px;
-        grid-template-areas: 'messages' 'new-message';
+        grid-template-rows: 80px 50vh 100px;
+        grid-template-areas: 'dialogs' 'messages' 'new-message';
         row-gap: 20px;
         &-items {
-            display: none;
-            flex-wrap: wrap;
+            padding-bottom: 5px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
         }
     }
 }
 
-@media(max-width: 576px) {
-    .dialogs {}
-}
+@media(max-width: 576px) {}

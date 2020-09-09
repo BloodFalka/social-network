@@ -17,6 +17,7 @@
     width: 100%;
     .avatar {
         align-self: flex-start;
+        border-radius: 10px;
         margin-right: 25px;
         height: auto;
         width: 80px;
@@ -32,6 +33,14 @@
         color: black;
         background: white;
         border-radius: 15px;
+        .check-is-viewed {
+            display: flex;
+            margin-top: 5px;
+            font-size: 10px;
+            align-items: flex-end;
+            justify-content: flex-end;
+            color: #00b8ff;
+        }
         .loading {
             color: transparent;
             background: linear-gradient(-45deg, #cbcfd4, #c9dff6, #f3f5f6, #c9dff6);
@@ -42,7 +51,7 @@
     &+.message {
         margin-top: 15px;
     }
-    &:nth-child(2n) {
+    &.my {
         flex-direction: row-reverse;
         .avatar {
             margin-right: 0px;
@@ -57,12 +66,12 @@
     .message {
         .avatar {
             margin-right: 15px;
-            width: 40px;
+            width: 50px;
         }
         &-text {
             max-width: 90%;
         }
-        &:nth-child(2n) {
+        &.my {
             .avatar {
                 margin-left: 15px;
             }

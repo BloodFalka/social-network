@@ -12,19 +12,18 @@ type PropsType = {
 	updateUserData: (userData:UserDataType)=>void
 	updateUserPhoto: (photo: File)=>void
 	updateUserStatus: (status:string|null)=>void
+	startDialog: (userId: number|null) => void
 }
 
 const ProfileHeader:FC<PropsType> = (props) => {
 	
-	if (!props.userData) {
-		return <Spinner />
-	}
-	return (
+
+	return !props.userData?  
+		<Spinner /> :
 		<div className="header">
-			<ProfileAvatar isMyPage={props.isMyPage} photo={props.userData.photos.large} updateUserPhoto={props.updateUserPhoto} />
+			<ProfileAvatar userId={props.userData.userId} startDialog={props.startDialog} isMyPage={props.isMyPage} photo={props.userData.photos.large} updateUserPhoto={props.updateUserPhoto} />
 			<ProfileDescription {...props} />
 		</div>
-	)
 }
 
 export default ProfileHeader

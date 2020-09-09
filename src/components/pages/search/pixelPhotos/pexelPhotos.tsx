@@ -1,12 +1,12 @@
 import React, { FC } from 'react'
 import Photo from './photo/photo'
 import './pexelPhotos.scss'
-import { pexelsPhotosType } from '../../../../api/pexelsPhotosAPI'
+import { PexelsPhotosType } from '../../../../api/pexelsPhotosAPI'
 import Masonry from 'react-masonry-css'
 import nextId from 'react-id-generator'
 
 type PropsType = {
-	photos: Array<pexelsPhotosType>,
+	photos: Array<PexelsPhotosType>,
 	findedPhotosCount: number | null,
 	nextPhotosPageUrl: string,
 	children: React.ReactNode,

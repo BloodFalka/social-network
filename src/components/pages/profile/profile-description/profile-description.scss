@@ -5,6 +5,15 @@
     line-height: 25px;
     .skills,
     .about-me {
+        white-space: pre-wrap;
+        /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;
+        /* Mozilla, since 1999 */
+        white-space: -pre-wrap;
+        /* Opera 4-6 */
+        white-space: -o-pre-wrap;
+        /* Opera 7 */
+        word-wrap: break-word;
         margin-top: 0px;
         text-align: left;
     }
@@ -16,12 +25,35 @@
         justify-content: center;
         flex-wrap: wrap;
         div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px;
+            border: 1px solid white;
+            border-radius: 10px;
+            background-color: transparent;
+            margin-bottom: 10px;
+            &:hover {
+                transform: scale(1.1);
+            }
+            &:active {
+                border-color: #00b8ff;
+                a {
+                    color: #00b8ff
+                }
+            }
+            a {
+                line-height: 0;
+                font-size: 30px;
+                color: white;
+            }
             margin-left: 10px;
         }
     }
     .status {
         user-select: none;
         &-text {
+            margin-bottom: 10px;
             cursor: pointer;
         }
         &-edit {

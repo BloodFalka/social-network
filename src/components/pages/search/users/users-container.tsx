@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { FC, useEffect } from 'react'
 import Users from './users'
 import { getUsers, setFollow, setUnfollow } from '../../../../redux/reducers/users-reducer'
 import { connect } from 'react-redux'
@@ -36,28 +36,28 @@ type MapDispatchPropsType = {
 
 type PropsType = MapStatePropsType & MapDispatchPropsType
 
-class UsersContainer extends Component<PropsType> {
-	componentDidMount() {
-		this.props.getUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage)
+const UsersContainer:FC<PropsType> = (props) => {
+	useEffect(() => {
+		props.getUsers(props.totalUsersCount, props.pageSize, props.currentPage)
+		// eslint-disable-next-line
+	}, [props.currentPage]);
+
+	const onPreviousPageClick = () => {
+		props.getUsers(props.totalUsersCount, props.pageSize, props.currentPage, 'prev')
 	}
 
-	onPreviousPageClick = () => {
-		this.props.getUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage, 'prev')
+	const onNextPageClick = () => {
+		props.getUsers(props.totalUsersCount, props.pageSize, props.currentPage, 'next')
 	}
 
-	onNextPageClick = () => {
-		this.props.getUsers(this.props.totalUsersCount, this.props.pageSize, this.props.currentPage, 'next')
+	const onFollow = (id:number) => {
+		props.setFollow(id)
 	}
 
-	onFollow = (id:number) => {
-		this.props.setFollow(id)
+	const onUnfollow = (id:number) => {
+		props.setUnfollow(id)
 	}
 
-	onUnfollow = (id:number) => {
-		this.props.setUnfollow(id)
-	}
-
-	render() {
 		const {
 			isLoading,
 			isFollowingProgress,
@@ -66,11 +66,9 @@ class UsersContainer extends Component<PropsType> {
 			totalUsersCount,
 			pageSize,
 			currentPage,
-		} = this.props
+		} = props
 
-		return isError ? (
-			<img src="https://i.pinimg.com/originals/13/9a/19/139a190b930b8efdecfdd5445cae7754.png" alt="Error" />
-		) : isLoading ? (
+		return  isLoading ? (
 			<Spinner />
 		) : (
 			<Users
@@ -78,15 +76,15 @@ class UsersContainer extends Component<PropsType> {
 				totalUsersCount={totalUsersCount}
 				pageSize={pageSize}
 				currentPage={currentPage}
-				onUnfollow={this.onUnfollow}
-				onFollow={this.onFollow}
+				onUnfollow={onUnfollow}
+				onFollow={onFollow}
 				isFollowingProgress={isFollowingProgress}
-				onPreviousPageClick={this.onPreviousPageClick}
-				onNextPageClick={this.onNextPageClick}
-				isAuth={this.props.isAuth}
+				onPreviousPageClick={onPreviousPageClick}
+				onNextPageClick={onNextPageClick}
+				isAuth={props.isAuth}
 			/>
 		)
-	}
+
 }
 
 const mapStateToProps = (state: AppStateType) => ({

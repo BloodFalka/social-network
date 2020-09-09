@@ -1,3 +1,4 @@
+import { getIsFollowed } from './profile-reducer';
 import { UserType } from './../../types/types';
 import { followAPI } from "../../api/followAPI";
 import { usersAPI } from "../../api/usersAPI";
@@ -18,11 +19,11 @@ let initialState = {
 	searchTerm: '',
 }
 
-type initialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 //REDUCER
 //
-const usersReducer = (state = initialState, action:UsersActionTypes):initialStateType => {
+const usersReducer = (state = initialState, action:UsersActionTypes):InitialStateType => {
 	switch (action.type) {
 		case 'users/FOLLOW':
 			return {
@@ -150,16 +151,12 @@ export const getUsers = (totalUsersCount:number, pageSize:number, currentPage:nu
 	}
 }
 
-const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMethod:typeof followAPI.setUnfollow|typeof followAPI.setFollow, actionCreator:(userId:number)=>UsersActionTypes) => {
+const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMethod:typeof followAPI.unfollow|typeof followAPI.follow, actionCreator:(userId:number)=>UsersActionTypes) => {
 	dispatch(actions.toggleFollowingProgress(true, userId))
 
 	let data = await apiMethod(userId)
 	if (data.resultCode === 0) {
 		dispatch(actionCreator(userId))
-		//TODO: is just for api test
-		let followed = await followAPI.getIsMeFollow(userId)
-		console.log(`I follow on user id=${userId}: ${followed}`)
-		//TODO: getIsMeFollow api works fine
 	} else {
 		dispatch(actions.toggleError(true))
 	}
@@ -167,14 +164,16 @@ const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMeth
 }
 
 export const setFollow = (userId:number):ThunkType => {
-	return async (dispatch) => {
-		_followUnfollowFlow(dispatch, userId, followAPI.setFollow.bind(followAPI), actions.follow)
+	return async (dispatch, getStore) => {
+		await _followUnfollowFlow(dispatch, userId, followAPI.follow.bind(followAPI), actions.follow)
+		await getIsFollowed(userId)
 	}
 }
 
 export const setUnfollow = (userId:number):ThunkType => {
 	return async (dispatch) => {
-		_followUnfollowFlow(dispatch, userId, followAPI.setUnfollow.bind(followAPI), actions.unfollow)
+		await _followUnfollowFlow(dispatch,  userId, followAPI.unfollow.bind(followAPI), actions.unfollow)
+		await getIsFollowed(userId)
 	}
 }
 

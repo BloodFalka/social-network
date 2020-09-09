@@ -1,32 +1,69 @@
 .dialog {
-    margin: 15px 0;
+    user-select: none;
+    position: relative;
+    margin: 15px 5px 15px 5px;
+    .new-message-count {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        width: 25px;
+        height: 25px;
+        border-radius: 100%;
+        font-size: 20px;
+        line-height: 0;
+        color: #001935;
+    }
     a {
+        .name {
+            word-break: break-all;
+            font-family: monospace;
+        }
         display: flex;
         text-decoration: none;
         color: white;
         line-height: 25px;
         img {
-            margin-right: 20px;
+            margin-right: 12px;
             border-radius: 100%;
-            height: 40px;
+            height: 70px;
         }
         &.active {
-            font-size: 20px;
             color: #00B8FF;
+            img {
+                box-shadow: 1px 1px 4px #17a2b8, -1px -1px 4px #17a2b8;
+            }
         }
     }
 }
 
 @media(max-width: 992px) {
     .dialog {
-        margin: 15px 15px 0px 15px;
+        &:first-child {
+            margin-left: 5px;
+        }
+        margin: 0px 10px 0px 0px;
+        display: flex;
+        flex-direction: column;
         a {
+            .name {
+                display: none;
+            }
             img {
-                margin-right: 20px;
-                height: 40px;
+                margin-right: 0px;
+                height: 60px;
             }
         }
     }
 }
 
-@media(max-width: 576px) {}
+@media(max-width: 576px) {
+    .dialog {
+        a {
+            img {
+                height: 50px;
+            }
+        }
+    }
+}

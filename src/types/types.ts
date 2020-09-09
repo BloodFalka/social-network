@@ -50,17 +50,24 @@ export type PostsType = {
 }
 
 export type MessagesType = {
-	id: number|string
-	message: string
-	avatar: string|null
-	likesCount: number
-	liked: boolean
+	id:string
+	body:string
+	translatedBody:null
+	addedAt:string
+	senderId:number
+	senderName:string
+	recipientId:number
+	viewed:boolean
 }
 
 export type DialogsType = {
+	hasNewMessages: boolean
 	id: number
-	name: string
-	avatar?: string
+	lastDialogActivityDate: string
+	lastUserActivityDate: string
+	newMessagesCount: number
+	photos: PhotosType
+	userName: string
 }
 
 export type FriendType ={

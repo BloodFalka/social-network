@@ -194,19 +194,19 @@
 // 	_callSubscriber(state) {},
 
 // 	getState() {
-// 		return this._state
+// 		return _state
 // 	},
 // 	subscribe(observer) {
-// 		this._callSubscriber = observer
+// 		_callSubscriber = observer
 // 	},
 
 // 	dispatch(action) {
-// 		this._state.friendsPage = friendsReducer(this._state.friendsPage, action)
-// 		this._state = messageReducer(this._state, action)
-// 		this._state = newPostReducer(this._state, action)
-// 		this._state.profilePage = profileReducer(this._state.profilePage, action)
+// 		_state.friendsPage = friendsReducer(_state.friendsPage, action)
+// 		_state = messageReducer(_state, action)
+// 		_state = newPostReducer(_state, action)
+// 		_state.profilePage = profileReducer(_state.profilePage, action)
 
-// 		this._callSubscriber(this._state)
+// 		_callSubscriber(_state)
 // 	},
 // }
 

@@ -1,10 +1,12 @@
 import { UserDataType, PhotosType } from './../../types/types';
 import { profileAPI } from "../../api/profileAPI";
 import { InferActionsTypes, BaseThunkType } from '../store';
+import { followAPI } from '../../api/followAPI';
 
 //INITIAL STATE TYPE
 let initialState = {
 	userData: null as UserDataType|null,
+	isFollowed: null as boolean|null,
 	status: '' as string|null,
 	isLoading: false
 };
@@ -17,6 +19,8 @@ const profileReducer = (state = initialState, action:ProfileActionsTypes):initia
 	switch (action.type) {
 		case 'profile/SET_USER':
 			return { ...state, userData: action.userData };
+		case 'profile/SET_FOLLOWED':
+			return {...state, isFollowed:action.isFollowed};
 		case 'profile/TOGGLE_LOADING':
 			return {
 				...state,
@@ -50,6 +54,10 @@ export const actions = {
 		type: 'profile/SET_USER',
 		userData,
 	}as const),
+	setFollowed: (isFollowed: boolean) => ({
+		type: 'profile/SET_FOLLOWED',
+		isFollowed
+	}as const),
 	toggleLoading: (isLoading:boolean) => ({
 		type: 'profile/TOGGLE_LOADING',
 		isLoading,
@@ -66,7 +74,6 @@ export const actions = {
 
 //THUNKS
 //
-
 type ThunkType = BaseThunkType<ProfileActionsTypes>
 
 export const getUserProfile = (userId:number|null, isAuth:boolean):ThunkType => {
@@ -81,6 +88,14 @@ export const getUserProfile = (userId:number|null, isAuth:boolean):ThunkType => 
 		let data = await profileAPI.getProfile(userId);
 		dispatch(actions.setUserData(data));
 		dispatch(actions.toggleLoading(false));
+	};
+};
+
+export const getIsFollowed = (userId:number|null):ThunkType => {
+	return async (dispatch) => {
+		let followed = await followAPI.getIsMeFollow(userId)
+		console.log(`I follow on user id=${userId}: ${followed}`)
+		dispatch(actions.setFollowed(followed))
 	};
 };
 

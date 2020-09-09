@@ -1,28 +1,33 @@
 import React, { FC } from 'react'
+import {FaCheck, FaCheckDouble} from 'react-icons/fa'
+import classNames from 'classnames'
 import './message.scss'
-import Like from '../../../../common/like/like'
+import { NavLink } from 'react-router-dom'
 
 type PropsType = {
-	avatar?: string
-	message: string
-	likesCount: number
-	liked: boolean
+	body: string
+	viewed: boolean
+	senderId: number
 	id: number|string
+	messageFriendAvatar: string|null,
+	currentUserAvatar: string|null,
+	currentUserId: number | null,
 }
 
-const Message: FC<PropsType> = (props) => {
-	const { avatar, message, likesCount, liked, id } = props
+const Message: FC<PropsType> = ({  body, viewed, id, messageFriendAvatar, currentUserAvatar, senderId, currentUserId } ) => {
+	const isMyMessage = senderId === currentUserId
+	const avatarTemplate = isMyMessage? currentUserAvatar:
+						messageFriendAvatar? messageFriendAvatar:
+						'https://image.flaticon.com/icons/png/512/206/206858.png'
 	return (
-		<div className="message">
-			<img src={avatar} alt="sendler-avatar" className="avatar" />
+		<div className={classNames('message', {my: isMyMessage})}>
+			{/* TODO: add profile avatar if this is my page */}
+			<NavLink to={`/profile/${senderId}`}><img src={avatarTemplate||''} alt="sendler-avatar" className="avatar" /></NavLink>
 			<div className="message-text">
-				{message}
-				<Like
-					liked={liked}
-					likesCount={likesCount}
-					itemId = {id}
-					addLike={()=>console.log('liked')}
-					removeLike={()=>console.log('unliked')}/>
+				{body}
+				<div className="check-is-viewed">
+					{isMyMessage&&(viewed? <FaCheckDouble/>: <FaCheck/>)}
+				</div>
 			</div>
 		</div>
 	)

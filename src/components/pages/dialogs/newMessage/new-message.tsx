@@ -4,7 +4,6 @@ import Button from '../../../common/button/button'
 import { reduxForm, InjectedFormProps } from 'redux-form'
 import { createField, Textarea, ExtractStringKeys } from '../../../common/forms-controls/forms-controls'
 import { maxLengthCreator, minLengthCreator, required } from '../../../../utils/validator'
-import nextId from 'react-id-generator'
 
 const maxLength500 = maxLengthCreator(500)
 const minLength2 = minLengthCreator(2)
@@ -17,7 +16,7 @@ const NewMessageForm: FC<InjectedFormProps<NewMessageValuesType>> = (props) => {
 			{createField<NewMessageFormValuesKeys>(
 				[maxLength500, minLength2, required],
 				'Enter your message',
-				'messageText',
+				'body',
 				Textarea,
 				{
 					className: 'text-field',
@@ -31,23 +30,23 @@ const NewMessageForm: FC<InjectedFormProps<NewMessageValuesType>> = (props) => {
 const ReduxNewMessageForm = reduxForm<NewMessageValuesType>({ form: 'new-message' })(NewMessageForm)
 
 type NewMessageValuesType = {
-	messageText: string,
+	body: string,
 }
 
 type NewMessageProps = {
-	addMessage: (text: string, id: number | string) => void,
+	userId: number,
+	sendMessage: (userId: number, body: string) => void,
 	reset: (form: string) => void,
 }
 
 const NewMessage: FC<NewMessageProps> = (props) => {
-	debugger
 	const onSubmit = (formData: NewMessageValuesType) => {
-		if (formData.messageText) {
-			const id = nextId()
-			props.addMessage(formData.messageText, id)
+		if (formData.body) {
+			props.sendMessage(props.userId, formData.body)
 			props.reset('new-message')
 		}
 	}
+
 	return <ReduxNewMessageForm onSubmit={onSubmit} />
 }
 

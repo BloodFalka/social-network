@@ -27,7 +27,7 @@ const MainContent = () => {
 					<Route exact path="/" render={() => <Redirect from="/" to="/profile" />} />
 					<Route path="/profile/:userId?" render={SuspendedProfile} />
 					<Route path="/login" render={SuspendedLogin} />
-					<Route path="/dialogs" render={SuspendedDialogs} />
+					<Route path="/dialogs/:userId?" render={SuspendedDialogs} />
 					<Route path="/friends" render={SuspendedFriends} />
 					<Route path="/add-post" render={SuspendedNewPost} />
 					<Route path="/search" render={SuspendedSearch} />

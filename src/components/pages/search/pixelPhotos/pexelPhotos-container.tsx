@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import Spinner from '../../../common/spinner/spinner'
 import { compose } from 'redux'
 import { AppStateType } from '../../../../redux/store'
-import { pexelsPhotosType } from '../../../../api/pexelsPhotosAPI'
+import { PexelsPhotosType } from '../../../../api/pexelsPhotosAPI'
 import { useInView } from 'react-intersection-observer'
 import {
 	selectPhotos,
@@ -23,7 +23,7 @@ import Wrapper from './wrapper'
 import { Redirect } from 'react-router-dom'
 
 type MapStatePropsType = {
-	photos: Array<pexelsPhotosType>,
+	photos: Array<PexelsPhotosType>,
 	findedPhotosCount: number | null,
 	nextPhotosPageUrl: string,
 	isLoading: boolean,

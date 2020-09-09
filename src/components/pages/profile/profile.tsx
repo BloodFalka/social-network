@@ -19,6 +19,7 @@ type PropsType = {
 	removeLike: (postId: number|string) => void,
 	removePost: (postId: number|string) => void,
 	editPost: (postId: number|string, text: string) => void,
+	startDialog: (userId: number|null) => void,
 }
 
 const Profile: FC<PropsType> = (props) => {
@@ -31,7 +32,9 @@ const Profile: FC<PropsType> = (props) => {
 				updateUserStatus={props.updateUserStatus}
 				updateUserPhoto={props.updateUserPhoto}
 				updateUserData={props.updateUserData}
+				startDialog={props.startDialog}
 			/>
+			{props.isMyPage &&
 			<MyPosts
 			isMyPage={props.isMyPage}
 				posts={props.posts}
@@ -39,8 +42,8 @@ const Profile: FC<PropsType> = (props) => {
 				removeLike={props.removeLike}
 				removePost={props.removePost}
 				editPost={props.editPost}
-			/>
-			{props.isMyPage && <Button text="Logut" color="#f92b66" disabled={false} onClick={props.onLogoutClick} />}
+			/>}
+			{props.isMyPage &&<Button text="Logut" color="#f92b66" disabled={false} onClick={props.onLogoutClick} />}
 		</div>
 	)
 }

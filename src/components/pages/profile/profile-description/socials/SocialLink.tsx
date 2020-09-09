@@ -1,27 +1,53 @@
 import React, { FC } from 'react'
-// @ts-ignore
-import { SocialMediaIconsReact as SocialIcons } from 'social-media-icons-react'
+import { ContactsType } from '../../../../../types/types'
+import {
+	FaGithub,
+	FaVk,
+	FaFacebookF,
+	FaInstagram,
+	FaTwitter,
+	FaChrome,
+	FaYoutube,
+	FaStar,
+} from 'react-icons/fa'
+
 type SocialLinkPropsType = {
-	name: string,
+	name:  keyof ContactsType,
 	url: string,
 }
-
 export const SocialsLink: FC<SocialLinkPropsType> = ({ name, url }) => {
+	let socialImage
+
+	switch (name) {
+		case 'github':
+			socialImage = <FaGithub />
+			break
+		case 'vk':
+			socialImage = <FaVk />
+			break
+		case 'facebook':
+			socialImage = <FaFacebookF />
+			break
+		case 'instagram':
+			socialImage = <FaInstagram />
+			break
+		case 'twitter':
+			socialImage = <FaTwitter />
+			break
+		case 'website':
+			socialImage = <FaChrome />
+			break
+		case 'youtube':
+			socialImage = <FaYoutube />
+			break
+		case 'mainLink':
+			socialImage = <FaStar />
+			break
+	}
+
 	return (
 		<div>
-			<SocialIcons
-				className="socials-link"
-				borderColor="rgba(255,255,255,0.25)"
-				borderWidth="2"
-				borderStyle="solid"
-				iconColor="rgba(255,255,255,1)"
-				backgroundColor="rgba(0,0,0,0)"
-				iconSize="5"
-				roundness="20%"
-				size="45"
-				icon={name === 'website' ? 'web' : name === 'mainLink' ? 'favorite' : name}
-				url={url}
-			/>
+			<a href={url}>{socialImage}</a>
 		</div>
 	)
 }

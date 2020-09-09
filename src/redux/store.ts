@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose, Action } from 'redux'
 import friendsReducer from './reducers/friends-reducer'
 import postsReducer from './reducers/posts-reducer'
-import messageReducer from './reducers/message-reducer'
+import messagesReducer from './reducers/messages-reducer'
+import dialogsReducer from './reducers/dialogs-reducer'
 import profileReducer from './reducers/profile-reducer'
 import usersReducer from './reducers/users-reducer'
 import authReducer from './reducers/auth-reducer'
@@ -13,7 +14,8 @@ import pixelPhotosReducer from './reducers/pexelPhotos-reducer'
 let rootReducer = combineReducers({
 	friendsPage: friendsReducer,
 	postsPage: postsReducer,
-	messagePage: messageReducer,
+	messages: messagesReducer,
+	dialogs: dialogsReducer,
 	profilePage: profileReducer,
 	usersPage: usersReducer,
 	pixelPhotosPage: pixelPhotosReducer,

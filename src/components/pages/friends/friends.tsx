@@ -9,10 +9,16 @@ type PropsType = {
 
 const Friends: FC<PropsType> = ({ friends }) => {
 	const friendsTemplate = friends.map((item) => {
-		return <Friend key={item.id} name={item.name} avatar={item.avatar} status={item.status} />
+		return (
+			<Friend key={item.id} name={item.name} userId={item.id} avatar={item.avatar} status={item.status} />
+		)
 	})
 
-	return <div className="friends">{friendsTemplate}</div>
+	return friends.length ? (
+		<div className="friends">{friendsTemplate}</div>
+	) : (
+		<div className="no-friends">You not have friends</div>
+	)
 }
 
 export default Friends

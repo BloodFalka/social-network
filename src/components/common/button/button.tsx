@@ -8,7 +8,7 @@ type PropsType = {
 	disabled?: boolean
 }
 
-const Button: FC<PropsType> = ({onClick, text, disabled,color}) => {
+const Button: FC<PropsType> = ({onClick, text, disabled,color,children}) => {
 	const buttonColor = { backgroundColor: `${color}` }
 	return (
 			<div>
@@ -17,7 +17,7 @@ const Button: FC<PropsType> = ({onClick, text, disabled,color}) => {
 					className="button"
 					style={buttonColor}
 					disabled={disabled}>
-					{text}
+					{text} {children}
 				</button>
 			</div>
 	)

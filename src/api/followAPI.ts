@@ -3,11 +3,11 @@ import { axiosInstance, APIResponseType } from './api'
 //FOLLOW-API
 //
 export const followAPI = {
-	setFollow(userId: number) {
+	follow(userId: number) {
 		return axiosInstance.post<APIResponseType>(`follow/${userId}`, {}).then((response) => response.data)
 	},
 
-	setUnfollow(userId: number) {
+	unfollow(userId: number) {
 		return axiosInstance.delete<APIResponseType>(`follow/${userId}`).then((response) => response.data)
 	},
 

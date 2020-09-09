@@ -6,7 +6,10 @@ export const axiosInstance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.0/',
 	withCredentials: true,
 	headers: {
-		'API-KEY': '55d9ee08-b9fc-4b1f-b311-0738f1eff444',
+		//BloodFalka
+		'API-KEY': '48a575df-4041-4c8c-add8-537c1451625b',
+		//Fallka
+		//'API-KEY': '78567aa2-7995-43ae-a987-8e1d3c868592',
 	},
 })
 

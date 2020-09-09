@@ -12,6 +12,7 @@ import {
 } from '../../../redux/reducers/profile-reducer'
 import { actions as PostActions } from '../../../redux/reducers/posts-reducer'
 import { authLogout } from '../../../redux/reducers/auth-reducer'
+import { startDialog } from '../../../redux/reducers/dialogs-reducer'
 import Spinner from '../../common/spinner/spinner'
 import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
 import { compose } from 'redux'
@@ -36,6 +37,7 @@ type MapDispatchPropsType = {
 	removeLike: (postId: number | string) => void,
 	removePost: (postId: number | string) => void,
 	editPost: (postId: number | string, text: string) => void,
+	startDialog: (userId: number | null) => void,
 }
 
 type MapStatePropsType = {
@@ -97,6 +99,7 @@ const ProfileContainer: FC<PropsType> = (props) => {
 			removeLike={props.removeLike}
 			removePost={props.removePost}
 			editPost={props.editPost}
+			startDialog={props.startDialog}
 		/>
 	)
 }
@@ -122,6 +125,7 @@ const mapDispatchToProps = {
 	removeLike,
 	removePost,
 	editPost,
+	startDialog,
 }
 
 export default compose<FC>(
