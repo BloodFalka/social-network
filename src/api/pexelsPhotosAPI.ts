@@ -4,8 +4,13 @@ import axios from 'axios'
 const axiosInstance = axios.create({
     baseURL: 'https://api.pexels.com/v1/',
 	headers: {
-        Authorization: '563492ad6f917000010000019bc651c33b8d47a483d905abb66d2f43'
-        // '563492ad6f9170000100000196deef0c580e48f9bd5c0b0241af8a5c'
+        //Blood
+        // Authorization: '563492ad6f917000010000019bc651c33b8d47a483d905abb66d2f43'
+        //Tony
+        Authorization: '563492ad6f9170000100000162057d77aaf045babc57d0134a03587d'
+        //noMy
+        //Authorization: '563492ad6f9170000100000196deef0c580e48f9bd5c0b0241af8a5c'
+
 	},
 })
 

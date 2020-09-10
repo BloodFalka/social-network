@@ -6,6 +6,7 @@ import SearchInput from './navigation/search-input/search-input'
 
 type PropsType = {
 	searchTerm: string,
+	currentUsersPage: number,
 	updateTerm: (term: string) => void
 	getUsers: (totalUsersCount:number, pageSize:number, currentPage:number, page?:'next'|'prev') => void
 	getPhotos: (photosPerPage?: number) => void,
@@ -14,6 +15,7 @@ type PropsType = {
 
 const Header: FC<PropsType> = ({
 	searchTerm,
+	currentUsersPage,
 	updateTerm,
 	getUsers,
 	isAuth,
@@ -24,6 +26,7 @@ const Header: FC<PropsType> = ({
 			<div className="container">
 				<Logo />
 				<SearchInput
+					currentUsersPage={currentUsersPage}
 					searchTerm={searchTerm}
 					updateTerm={updateTerm}
 					getUsers={getUsers}

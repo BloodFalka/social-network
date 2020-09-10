@@ -61,7 +61,6 @@ const UsersContainer:FC<PropsType> = (props) => {
 		const {
 			isLoading,
 			isFollowingProgress,
-			isError,
 			users,
 			totalUsersCount,
 			pageSize,

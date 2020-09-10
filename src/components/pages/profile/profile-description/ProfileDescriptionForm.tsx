@@ -12,7 +12,7 @@ import { SocialLinksPropsType } from './socials/SocialLinks'
 import { maxLengthCreator, minLengthCreator } from '../../../../utils/validator'
 import { UserDataType } from '../../../../types/types'
 
-const maxLength15 = maxLengthCreator(15)
+const maxLength30 = maxLengthCreator(30)
 const maxLength200 = maxLengthCreator(200)
 const minLength5 = minLengthCreator(5)
 
@@ -28,7 +28,7 @@ const ProfileDescriptionForm: FC<
 			<div>
 				Full Name
 				{createField<ProfileDescriptionFormValuesKeys>(
-					[required, maxLength15, minLength5],
+					[required, maxLength30, minLength5],
 					undefined,
 					'fullName',
 					Input,
@@ -54,15 +54,9 @@ const ProfileDescriptionForm: FC<
 			</div>
 			<div>
 				About Me
-				{createField<ProfileDescriptionFormValuesKeys>(
-					[maxLength200, minLength5],
-					undefined,
-					'aboutMe',
-					Textarea,
-					{
-						className: 'input about-me',
-					}
-				)}
+				{createField<ProfileDescriptionFormValuesKeys>([], undefined, 'aboutMe', Textarea, {
+					className: 'input about-me',
+				})}
 			</div>
 			<div>
 				Contacts

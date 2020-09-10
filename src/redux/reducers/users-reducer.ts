@@ -151,12 +151,15 @@ export const getUsers = (totalUsersCount:number, pageSize:number, currentPage:nu
 	}
 }
 
-const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMethod:typeof followAPI.unfollow|typeof followAPI.follow, actionCreator:(userId:number)=>UsersActionTypes) => {
+type DispatchThunkType = any
+
+const _followUnfollowFlow = async (dispatch:DispatchType|DispatchThunkType, userId:number, apiMethod:typeof followAPI.unfollow|typeof followAPI.follow, actionCreator:(userId:number)=>UsersActionTypes) => {
 	dispatch(actions.toggleFollowingProgress(true, userId))
 
 	let data = await apiMethod(userId)
 	if (data.resultCode === 0) {
 		dispatch(actionCreator(userId))
+		dispatch(getIsFollowed(userId))
 	} else {
 		dispatch(actions.toggleError(true))
 	}
@@ -164,16 +167,14 @@ const _followUnfollowFlow = async (dispatch:DispatchType, userId:number, apiMeth
 }
 
 export const setFollow = (userId:number):ThunkType => {
-	return async (dispatch, getStore) => {
+	return async (dispatch) => {
 		await _followUnfollowFlow(dispatch, userId, followAPI.follow.bind(followAPI), actions.follow)
-		await getIsFollowed(userId)
 	}
 }
 
 export const setUnfollow = (userId:number):ThunkType => {
 	return async (dispatch) => {
 		await _followUnfollowFlow(dispatch,  userId, followAPI.unfollow.bind(followAPI), actions.unfollow)
-		await getIsFollowed(userId)
 	}
 }
 

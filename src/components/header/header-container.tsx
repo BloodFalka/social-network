@@ -6,12 +6,13 @@ import {getPhotos} from '../../redux/reducers/pexelPhotos-reducer'
 import { connect } from 'react-redux'
 import { AppStateType } from '../../redux/store'
 import { selectIsAuth } from '../../redux/selectors/auth-selector'
-import { selectSearchTerm } from '../../redux/selectors/users-selector'
+import { selectSearchTerm, selectCurrentPage } from '../../redux/selectors/users-selector'
 const {updateTerm} = usersActions
 
 type MapStatePropsType = {
 	isAuth: boolean
 	searchTerm: string
+	currentUsersPage: number
 }
 
 type MapDispatchPropsType = {
@@ -28,6 +29,7 @@ const HeaderContainer:FC<PropsType> = (props) => {
 const mapStateToProps = (state: AppStateType) => ({
 	isAuth: selectIsAuth(state),
 	searchTerm: selectSearchTerm(state),
+	currentUsersPage: selectCurrentPage(state)
 })
 
 const mapDispatchToProps = { updateTerm, getUsers, getPhotos }

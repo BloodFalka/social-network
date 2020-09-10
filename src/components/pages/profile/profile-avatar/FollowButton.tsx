@@ -27,11 +27,13 @@ type PropsType = MapStatePropsType&MapDispatchPropsType&OwnProps
 const FollowButton:FC<PropsType> = ({userId, isFollowed, isFollowingProgress, setFollow, setUnfollow, getIsFollowed}) => {
     useEffect(() => {
         getIsFollowed(userId)
-    }, [isFollowed]);
+        // eslint-disable-next-line
+    }, []);
 
     const onClick = () =>  {
-        userId&&(isFollowed? setUnfollow(userId): setFollow(userId) )
-        getIsFollowed(userId)
+        if(userId){
+            isFollowed? setUnfollow(userId): setFollow(userId)
+        }
     }
 
 	const buttonText = isFollowed ? 'UNFOLLOW' : 'FOLLOW'
