@@ -6,6 +6,7 @@ import NewMessageContainer from './newMessage/new-message'
 import { DialogsType, MessagesType } from '../../../types/types'
 import { RouteComponentProps } from 'react-router-dom'
 import Spinner from '../../common/spinner/spinner'
+import styled from 'styled-components'
 
 type PropsType = {
 	dialogs: Array<DialogsType>,
@@ -66,7 +67,7 @@ const Dialogs: FC<Props> = ({
 		)
 	})
 
-	return (
+	return dialogs.length ? (
 		<div className="dialogs">
 			{isLoadingDialogs ? <Spinner /> : <div className="dialogs-items">{dialogsTemplate}</div>}
 			{+match.params.userId ? (
@@ -86,7 +87,20 @@ const Dialogs: FC<Props> = ({
 				<div className="choose-user">Please Choose User</div>
 			)}
 		</div>
+	) : (
+		<NoDialogs>You haven't dialogs, Start chatting with someone</NoDialogs>
 	)
 }
+
+const NoDialogs = styled.div`
+	height: 100%;
+	font-family: monospace;
+	text-shadow: 3px 2px 2px #f92b66, -2px -2px 2px #17a2b8;
+	font-size: 40px;
+	display: flex;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+`
 
 export default Dialogs

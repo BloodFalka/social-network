@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import './app.scss'
 import MainContent from '../main-content/main-content'
 import { initializeApp } from '../../redux/reducers/app-reducer'
-import { withRouter, BrowserRouter as Router } from 'react-router-dom'
+import { withRouter, BrowserRouter as Router, HashRouter } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { compose } from 'redux'
 import Spinner from '../common/spinner/spinner'
@@ -62,14 +62,15 @@ const AppContainer = compose<React.ComponentType>(
 	connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps)
 )(App)
 
+//FIXME: if router: basename={process.env.PUBLIC_URL}
 const DeadSocialApp = () => {
 	return (
-		<Router basename={process.env.PUBLIC_URL}>
+		<HashRouter>
 			<Favicon url="./favicon.ico" />
 			<Provider store={store}>
 				<AppContainer />
 			</Provider>
-		</Router>
+		</HashRouter>
 	)
 }
 

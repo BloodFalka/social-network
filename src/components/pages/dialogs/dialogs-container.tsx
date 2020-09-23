@@ -51,8 +51,10 @@ type OwnPropsType = RouteComponentProps<{
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const DialogsContainer: FC<PropsType> = (props) => {
+	debugger
 	return <Dialogs {...props} />
 }
+
 const mapStateToProps = (state: AppStateType) => ({
 	dialogs: selectDialogs(state),
 	messages: selectMessages(state),
