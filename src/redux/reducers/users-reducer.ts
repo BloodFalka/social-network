@@ -16,7 +16,6 @@ let initialState = {
 	FollowingProgress: [] as Array<number>,
 	isLoading: false,
 	isError: false,
-	searchTerm: '',
 }
 
 export type InitialStateType = typeof initialState
@@ -49,22 +48,11 @@ const usersReducer = (state = initialState, action:UsersActionTypes):InitialStat
 				...state,
 				totalUsersCount: action.count,
 			}
-		case 'users/SET_NEXT_PAGE':
+		case 'users/SET_CURRENT_PAGE':
 			return {
 				...state,
-				currentPage:
-					state.currentPage + 1 > Math.ceil(state.totalUsersCount / state.pageSize) ? 1 : state.currentPage + 1,
-			}
-		case 'users/SET_PREVIOUS_PAGE':
-			return {
-				...state,
-				currentPage:
-					state.currentPage - 1 < 1 ? Math.ceil(state.totalUsersCount / state.pageSize) : state.currentPage - 1,
-			}
-		case 'users/UPDATE_TERM':
-			return {
-				...state,
-				searchTerm: action.term,
+				currentPage: action.page
+
 			}
 		case 'users/TOGGLE_LOADING':
 			return {
@@ -103,13 +91,10 @@ export const actions = {
 		type: 'users/SET_TOTAL_USERS_COUNT',
 		count,
 	}as const),
-	setNextPage: () => ({
-		type: 'users/SET_NEXT_PAGE',
+	setCurrentPage: (page:number) => ({
+		type: 'users/SET_CURRENT_PAGE',
+		page,
 	}as const),
-	setPreviousPage: () => ({
-		type: 'users/SET_PREVIOUS_PAGE',
-	}as const),
-	updateTerm: (term:string) => ({ type: 'users/UPDATE_TERM', term }as const),
 	toggleLoading: (isLoading:boolean) => ({
 		type: 'users/TOGGLE_LOADING',
 		isLoading,
@@ -129,25 +114,17 @@ export const actions = {
 type DispatchType = Dispatch<UsersActionTypes>
 type ThunkType = BaseThunkType<UsersActionTypes>
 
-export const getUsers = (totalUsersCount:number, pageSize:number, currentPage:number, page?:'prev'|'next'):ThunkType => {
+export const getUsers = (pageSize:number, currentPage:number):ThunkType => {
 	return async (dispatch, getState) => {
 		dispatch(actions.toggleLoading(true))
-		const term = getState().usersPage.searchTerm
-		const pagesCount = totalUsersCount / pageSize
+		const term = getState().app.searchTerm
 
-		const prevPage = currentPage - 1 < 1 ? Math.ceil(pagesCount) : currentPage - 1
-		const nextPage = currentPage + 1 > Math.ceil(pagesCount) ? 1 : currentPage + 1
-
-		const showingPage = page === 'prev' ? prevPage : page === 'next' ? nextPage : currentPage
-		let data = await usersAPI.getUsers(showingPage, pageSize, term)
-
-		dispatch(actions.toggleLoading(false))
-		page === 'prev' && dispatch(actions.setPreviousPage())
-		page === 'next' && dispatch(actions.setNextPage())
+		const data = await usersAPI.getUsers(pageSize, currentPage, term)
 
 		dispatch(actions.setUsers(data.items))
-
+		dispatch(actions.setCurrentPage(currentPage))
 		dispatch(actions.setTotalUsersCount(data.totalCount))
+		dispatch(actions.toggleLoading(false))
 	}
 }
 

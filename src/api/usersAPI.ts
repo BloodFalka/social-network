@@ -9,11 +9,13 @@ type GetUsersResponseType = {
 }
 
 export const usersAPI = {
-	getUsers(page: number, pageSize: number, term: string, friend?: boolean) {
+	getUsers(pageSize: number, currentPage: number, term: string, friend?: boolean) {
+		const termQuery = term ? `&term=${term}` : ''
+		const friendQuery = friend ? `&friend=${friend}` : ''
 		// const cheatTerm = term === '/friend'||'/stranger'? '': term
 		// const cheatFriend = term === '/friend'? true:'/stranger'? false: friend
 		return axiosInstance
-			.get<GetUsersResponseType>(`users?page=${page}&count=${pageSize}&term=${term}&friend=${friend}`)
+			.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}${termQuery}${friendQuery}`)
 			.then((response) => response.data)
 	},
 }

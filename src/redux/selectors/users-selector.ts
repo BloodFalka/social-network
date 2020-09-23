@@ -16,10 +16,6 @@ export const selectCurrentPage = (state: AppStateType) => {
 	return state.usersPage.currentPage
 }
 
-export const selectSearchTerm = (state: AppStateType): string => {
-	return state.usersPage.searchTerm
-}
-
 export const selectIsLoading = (state: AppStateType) => {
 	return state.usersPage.isLoading
 }

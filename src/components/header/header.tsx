@@ -3,35 +3,16 @@ import './header.scss'
 import Navigation from './navigation/navigation'
 import Logo from '../common/logo/logo'
 import SearchInput from './navigation/search-input/search-input'
+import { useSelector } from 'react-redux'
+import { selectIsAuth } from '../../redux/selectors/auth-selector'
 
-type PropsType = {
-	searchTerm: string,
-	currentUsersPage: number,
-	updateTerm: (term: string) => void
-	getUsers: (totalUsersCount:number, pageSize:number, currentPage:number, page?:'next'|'prev') => void
-	getPhotos: (photosPerPage?: number) => void,
-	isAuth: boolean
-}
-
-const Header: FC<PropsType> = ({
-	searchTerm,
-	currentUsersPage,
-	updateTerm,
-	getUsers,
-	isAuth,
-	getPhotos
-}) => {
+const Header: FC = (props) => {
+	const isAuth = useSelector(selectIsAuth)
 	return (
 		<header className="app-header">
 			<div className="container">
 				<Logo />
-				<SearchInput
-					currentUsersPage={currentUsersPage}
-					searchTerm={searchTerm}
-					updateTerm={updateTerm}
-					getUsers={getUsers}
-					getPhotos={getPhotos}
-				/>
+				<SearchInput />
 				<Navigation isAuth={isAuth} />
 			</div>
 		</header>

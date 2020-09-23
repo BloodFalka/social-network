@@ -65,7 +65,7 @@ type ThunkType = BaseThunkType<FriendsActionsTypes>
 export const getFriends = ():ThunkType => {
 	return async (dispatch) => {
 		dispatch(actions.toggleLoading(true))
-		let data = await usersAPI.getUsers(1, 50, '', true)
+		let data = await usersAPI.getUsers(50, 1, '', true)
 		const friends = data.items.map(item =>{
 			return {
 				id: item.id,

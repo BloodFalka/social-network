@@ -12,10 +12,6 @@ export const selectNextPhotosPageUrl = (state: AppStateType) => {
 	return state.pixelPhotosPage.nextPageUrl
 }
 
-export const selectSearchTerm = (state: AppStateType): string => {
-	return state.pixelPhotosPage.searchTerm
-}
-
 export const selectIsLoading = (state: AppStateType) => {
 	return state.pixelPhotosPage.isLoading
 }

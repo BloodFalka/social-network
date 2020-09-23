@@ -1,6 +1,6 @@
 import React from 'react'
 import './search.scss'
-import Users from './users/users-container'
+import { Users } from './users/users'
 import PixelPhotos from './pixelPhotos/pexelPhotos-container'
 
 const Search = () => {

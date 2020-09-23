@@ -36,11 +36,6 @@ const pixelPhotosReducer = (state = initialState, action:PixelPhotosActionTypes)
 				...state,
 				nextPageUrl: action.url
 			}
-		case 'pixelPhotos/UPDATE_TERM':
-			return {
-				...state,
-				searchTerm: action.term,
-			}
 		case 'pixelPhotos/SET_TOTAL_PHOTOS_COUNT':
 			return {
 				...state,
@@ -81,7 +76,6 @@ export const actions = {
 		type: 'pixelPhotos/SET_TOTAL_PHOTOS_COUNT',
 		count,
 	}as const),
-	updateTerm: (term:string) => ({ type: 'pixelPhotos/UPDATE_TERM', term }as const),
 	toggleLoading: (isLoading:boolean) => ({
 		type: 'pixelPhotos/TOGGLE_LOADING',
 		isLoading,
@@ -104,7 +98,7 @@ export const getPhotos = (photosPerPage?:number):ThunkType => {
     return async (dispatch, getState) => {
         dispatch(actions.toggleLoading(true))
 
-		const term = getState().usersPage.searchTerm
+		const term = getState().app.searchTerm
 		const nextPage = getState().pixelPhotosPage.nextPageUrl
 
 		let data = term === ''?

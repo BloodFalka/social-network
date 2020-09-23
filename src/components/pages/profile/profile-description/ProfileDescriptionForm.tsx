@@ -13,7 +13,6 @@ import { maxLengthCreator, minLengthCreator } from '../../../../utils/validator'
 import { UserDataType } from '../../../../types/types'
 
 const maxLength30 = maxLengthCreator(30)
-const maxLength200 = maxLengthCreator(200)
 const minLength5 = minLengthCreator(5)
 
 export type ProfileDescriptionFormValuesKeys = ExtractStringKeys<ProfileDescriptionFormValuesType>

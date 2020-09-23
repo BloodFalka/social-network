@@ -10,7 +10,7 @@ import Favicon from 'react-favicon'
 import store, { AppStateType } from '../../redux/store'
 import UpperNavigation from '../header/upper-navigation/upper-navigation'
 import { selectInitialized } from '../../redux/selectors/app-selector'
-import HeaderContainer from '../header/header-container'
+import Header from '../header/header'
 import ErrorPopup from '../error-popup/error-popup'
 
 type MapDispatchPropsType = {
@@ -43,7 +43,7 @@ const App: FC<PropsType> = ({ initializeApp, initialized }) => {
 		<div className="app-wrapper">
 			{error && <ErrorPopup errorText={'Some Error ocurred, please reload page'} />}
 			<UpperNavigation />
-			<HeaderContainer />
+			<Header />
 			<MainContent />
 		</div>
 	) : (

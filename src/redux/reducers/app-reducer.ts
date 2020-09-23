@@ -1,13 +1,12 @@
 import { getAuthUserData } from './auth-reducer'
 import { InferActionsTypes, BaseThunkType } from '../store'
 
-type initialStateTypes = {
-	initialized: boolean,
+let initialState = {
+	initialized: false,
+	searchTerm: ''
 }
 
-let initialState: initialStateTypes = {
-	initialized: false,
-}
+type initialStateTypes = typeof initialState
 
 const appReducer = (state = initialState, action: AppActionsTypes): initialStateTypes => {
 	switch (action.type) {
@@ -15,6 +14,11 @@ const appReducer = (state = initialState, action: AppActionsTypes): initialState
 			return {
 				...state,
 				initialized: true,
+			}
+		case 'app/UPDATE_TERM':
+			return{
+				...state,
+				searchTerm: action.term
 			}
 		default:
 			return state
@@ -27,7 +31,8 @@ type AppActionsTypes = InferActionsTypes<typeof actions>
 export const actions = {
 	initializedSuccess: () => ({
 		type: 'app/INITIALIZED_SUCCESS',
-	}as const)
+	}as const),
+	updateTerm: (term:string) => ({ type: 'app/UPDATE_TERM', term }as const),
 }
 
 //THUNKS
